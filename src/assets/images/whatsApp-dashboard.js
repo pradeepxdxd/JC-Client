@@ -1,0 +1,1 @@
+export const whatsAppDashboardImage = 'https://static.whatsapp.net/rsrc.php/v3/y6/r/wa669aeJeom.png'
