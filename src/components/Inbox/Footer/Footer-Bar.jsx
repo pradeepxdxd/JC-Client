@@ -9,6 +9,7 @@ import SendIcon from '@mui/icons-material/Send';
 import TextBox from '../TextBox/TextBox';
 import { useDispatch } from 'react-redux';
 import { setMessages } from '../../../store/message/message.slice'
+import { formatAMPM } from '../../../utils/formatTime';
 
 export default function FooterBar() {
     const [inputText, setInputText] = useState('')
@@ -21,20 +22,9 @@ export default function FooterBar() {
 
     const handleSendClick = e => {
         if (inputText !== '') {
-            dispatch(setMessages({ message: inputText, time: formatAMPM(new Date()) }))
+            dispatch(setMessages({ message: inputText, time: formatAMPM() }))
             setInputText('')
         }
-    }
-
-    function formatAMPM(date) {
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        var ampm = hours >= 12 ? 'pm' : 'am';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        var strTime = hours + ':' + minutes + ' ' + ampm;
-        return strTime;
     }
 
     const isTyping = useMemo(() => {
