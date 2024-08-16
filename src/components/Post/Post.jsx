@@ -6,11 +6,13 @@ import DoneIcon from '@mui/icons-material/Done';
 import { useDispatch } from 'react-redux';
 import { setProfile } from '../../store/profile/profile.slice';
 import { clearMessages } from '../../store/message/message.slice';
+import { handleSnackbarClick } from '../../store/ui/snakebar/snakebar.slice';
 
 export default function Post({ data }) {
   const dispatch = useDispatch()
 
   const handleClick = () => {
+    dispatch(handleSnackbarClick())
     dispatch(setProfile({ name: data.user_name, image: data.image }))
     dispatch(clearMessages())
   }
@@ -93,7 +95,7 @@ export default function Post({ data }) {
           }
           subheader={
             <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center' }}>
-              {data.clientMessageStatus === 'read' && <DoneAllIcon sx={{ color: 'blue' }} />}
+              {data.clientMessageStatus === 'read' && <DoneAllIcon sx={{ color: '#1695de' }} />}
               {data.clientMessageStatus === 'sent' && <DoneIcon sx={{ color: 'gray' }} />}
               {data.clientMessageStatus === 'delivered' && <DoneAllIcon sx={{ color: 'gray' }} />}
               <span style={{ marginLeft: '6px', paddingBottom: '0px', color: '#d2d3d2' }}>

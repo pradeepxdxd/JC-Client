@@ -3,6 +3,7 @@ import Left from './Left/Left';
 import Right from './Right/Right';
 import { Grid } from '@mui/material';
 import WhatsAppBgChatImage from '../assets/chat/whatsapp-bg-image.jpg'
+import AutoSnakebar from '../components/Snakebar/AutoSnakebar';
 
 export default function Layout() {
    return (
@@ -10,8 +11,8 @@ export default function Layout() {
          <Grid
             container
             height={'100vh'}
-            width={'100%'}  // Change from 100vw to 100%
-            spacing={0}  // Ensure spacing doesn't add extra width
+            width={'100vw'}  // Change from 100vw to 100%
+            spacing={1}  // Ensure spacing doesn't add extra width
             sx={{
                overflow: 'hidden',  // Hide overflow on the container
                boxSizing: 'border-box',
@@ -57,6 +58,7 @@ export default function Layout() {
             >
                <Right />
             </Grid>
+            <AutoSnakebar />
          </Grid>
       </>
    );

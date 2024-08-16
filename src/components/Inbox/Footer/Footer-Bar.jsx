@@ -1,4 +1,4 @@
-import { Box, Grid, TextField } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import React, { useMemo, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -20,7 +20,7 @@ export default function FooterBar() {
         setInputText(e.target.value)
     }
 
-    const handleSendClick = e => {
+    const handleSendClick = () => {
         if (inputText !== '') {
             dispatch(setMessages({ message: inputText, time: formatAMPM() }))
             setInputText('')
@@ -42,7 +42,6 @@ export default function FooterBar() {
             }}
         >
             <AppBar position="static" sx={{ bgcolor: '#2c343d' }}>
-
                 <Toolbar>
                     <Grid container spacing={1}>
                         <Grid item xs={0} mt={2}>
@@ -52,7 +51,7 @@ export default function FooterBar() {
                             <AddIcon sx={{ color: '#7e8686', cursor: 'pointer' }} />
                         </Grid>
                         <Grid item xs={6.5}>
-                            <TextBox inputText={inputText} handleChange={handleChange} />
+                            <TextBox inputText={inputText} handleSendClick={handleSendClick} handleChange={handleChange} />
                         </Grid>
                         <Grid item xs={0} mt={2} ml={5}>
                             {
@@ -66,3 +65,4 @@ export default function FooterBar() {
         </Box>
     );
 }
+

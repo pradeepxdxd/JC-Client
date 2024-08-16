@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box } from "@material-ui/core";
-import { MessageLeft, MessageRight } from "./Message";
+import { MessageLeft, MessageRight } from "../../../views/Chat/Message";
 import { useSelector } from "react-redux";
 
 export default function ChatBox() {

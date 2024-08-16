@@ -1,9 +1,13 @@
 import { Button, Grid } from '@mui/material'
 import React from 'react'
+import { handleSnackbarClick } from '../../store/ui/snakebar/snakebar.slice'
+import { useDispatch } from 'react-redux'
 
 const tabs = ['All', 'Unread', 'Groups']
 
 export default function Tabs() {
+  const dispatch = useDispatch()
+
   return (
     <Grid container item xs={12} style={{ width: '100%' }}>
       {
@@ -11,6 +15,7 @@ export default function Tabs() {
           <Button
             key={Math.floor(Math.random() * 10) + 1}
             variant="contained"
+            onClick={() => dispatch(handleSnackbarClick())}
             sx={{
               backgroundColor: '#2c343d', // Set the background color to gray
               color: 'gray',          // Set the text color to white for contrast

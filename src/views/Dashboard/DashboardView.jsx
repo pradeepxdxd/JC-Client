@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
-import { whatsAppDashboardImage } from '../assets/images/whatsApp-dashboard'
+import { whatsAppDashboardImage } from '../../assets/images/whatsApp-dashboard'
 import HttpsIcon from '@mui/icons-material/Https';
 
 export default function DashboardView() {
