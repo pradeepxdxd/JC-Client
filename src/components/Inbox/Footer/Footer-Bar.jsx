@@ -10,6 +10,7 @@ import TextBox from '../TextBox/TextBox';
 import { useDispatch } from 'react-redux';
 import { setMessages } from '../../../store/message/message.slice'
 import { formatAMPM } from '../../../utils/formatTime';
+import { handleSnackbarClick } from '../../../store/ui/snakebar/snakebar.slice'
 
 export default function FooterBar() {
     const [inputText, setInputText] = useState('')
@@ -44,10 +45,10 @@ export default function FooterBar() {
             <AppBar position="static" sx={{ bgcolor: '#2c343d' }}>
                 <Toolbar>
                     <Grid container spacing={1}>
-                        <Grid item xs={0} mt={2}>
+                        <Grid item xs={0} mt={2} onClick={() => dispatch(handleSnackbarClick())}>
                             <SentimentVerySatisfiedIcon sx={{ color: '#7e8686', cursor: 'pointer' }} />
                         </Grid>
-                        <Grid item xs={0} ml={3} mt={2}>
+                        <Grid item xs={0} ml={3} mt={2} onClick={() => dispatch(handleSnackbarClick())}>
                             <AddIcon sx={{ color: '#7e8686', cursor: 'pointer' }} />
                         </Grid>
                         <Grid item xs={6.5}>
@@ -56,7 +57,7 @@ export default function FooterBar() {
                         <Grid item xs={0} mt={2} ml={5}>
                             {
                                 isTyping ? <div onClick={handleSendClick}><SendIcon sx={{ color: '#7e8686', cursor: 'pointer' }} /></div> :
-                                    <MicIcon sx={{ color: '#7e8686', cursor: 'pointer' }} />
+                                    <div onClick={() => dispatch(handleSnackbarClick())}><MicIcon sx={{ color: '#7e8686', cursor: 'pointer' }} /></div>
                             }
                         </Grid>
                     </Grid>

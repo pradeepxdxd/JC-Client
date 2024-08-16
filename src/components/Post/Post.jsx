@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Avatar, Box, Card, CardHeader, Grid, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
@@ -6,17 +6,17 @@ import DoneIcon from '@mui/icons-material/Done';
 import { useDispatch } from 'react-redux';
 import { setProfile } from '../../store/profile/profile.slice';
 import { clearMessages } from '../../store/message/message.slice';
-import { handleSnackbarClick } from '../../store/ui/snakebar/snakebar.slice';
+import { userSelected } from '../../store/selectedUser/selectedUser.slice'
 
 export default function Post({ data }) {
   const dispatch = useDispatch()
 
   const handleClick = () => {
-    dispatch(handleSnackbarClick())
     dispatch(setProfile({ name: data.user_name, image: data.image }))
     dispatch(clearMessages())
+    dispatch(userSelected())
   }
-  
+
   return (
     <Grid container item xs={12} style={{ width: '100%' }}> {/* Ensure full width */}
       <Card

@@ -1,31 +1,32 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Avatar, Tooltip } from '@mui/material';
-import { pradeepImage } from '../../../assets/images/friends';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import WestIcon from '@mui/icons-material/West';
+import { userUnselected } from '../../../store/selectedUser/selectedUser.slice';
+import {handleSnackbarClick} from '../../../store/ui/snakebar/snakebar.slice'
 
 export default function PrimarySearchAppBar() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
     const { name, image } = useSelector(state => state.profileSlice)
+
+    const dispatch = useDispatch()
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -88,11 +89,11 @@ export default function PrimarySearchAppBar() {
         >
             <MenuItem>
                 <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="error">
-                        <MailIcon />
+                    <Badge badgeContent={0} color="error">
+                        <VideocamIcon />
                     </Badge>
                 </IconButton>
-                <p>Messages</p>
+                <p>Video Call</p>
             </MenuItem>
             <MenuItem>
                 <IconButton
@@ -100,11 +101,11 @@ export default function PrimarySearchAppBar() {
                     aria-label="show 17 new notifications"
                     color="inherit"
                 >
-                    <Badge badgeContent={17} color="error">
-                        <NotificationsIcon />
+                    <Badge badgeContent={0} color="error">
+                        <SearchIcon />
                     </Badge>
                 </IconButton>
-                <p>Notifications</p>
+                <p>Search</p>
             </MenuItem>
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
@@ -125,8 +126,11 @@ export default function PrimarySearchAppBar() {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" sx={{ bgcolor: '#2c343d' }}>
                 <Toolbar>
+                    <Box onClick={() => dispatch(userUnselected())} sx={{ mr: 2, cursor:'pointer', display : {xs:'block', sm:'none'} }}>
+                        <WestIcon />
+                    </Box>
                     <Tooltip title="Profile Details">
-                        <IconButton sx={{ p: 0 }}>
+                        <IconButton sx={{ p: 0 }} onClick={() => dispatch(handleSnackbarClick())}>
                             <Avatar alt="Pradeep" src={image} />
                         </IconButton>
                     </Tooltip>
@@ -136,7 +140,7 @@ export default function PrimarySearchAppBar() {
 
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                        <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => dispatch(handleSnackbarClick())}>
                             <Badge color="error">
                                 <VideocamIcon sx={{ color: '#7e8686' }} />
                             </Badge>
@@ -145,6 +149,7 @@ export default function PrimarySearchAppBar() {
                             size="large"
                             aria-label="show 17 new notifications"
                             color="inherit"
+                            onClick={() => dispatch(handleSnackbarClick())}
                         >
                             <Badge>
                                 <SearchIcon sx={{ color: '#CFCFCF' }} />

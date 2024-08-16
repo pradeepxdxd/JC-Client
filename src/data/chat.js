@@ -3,7 +3,7 @@ import { pradeepImage, chandanImage, ritikImage, kalpeshImage } from '../assets/
 export const chats = [
     {
         id : 1,
-        user_name : 'Aadi Biswas',
+        user_name : 'Pradeep Biswas',
         image : pradeepImage,
         time : '01:34 PM',
         message : 'Hii',

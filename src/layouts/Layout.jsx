@@ -4,60 +4,66 @@ import Right from './Right/Right';
 import { Grid } from '@mui/material';
 import WhatsAppBgChatImage from '../assets/chat/whatsapp-bg-image.jpg'
 import AutoSnakebar from '../components/Snakebar/AutoSnakebar';
+import { useSelector } from 'react-redux';
 
 export default function Layout() {
+   const { selected } = useSelector(state => state.selectedUserSlice)
+
    return (
       <>
          <Grid
             container
             height={'100vh'}
-            width={'100vw'}  // Change from 100vw to 100%
-            spacing={1}  // Ensure spacing doesn't add extra width
+            width={'100%'} // Ensure full width
+            spacing={0} // Remove spacing between items
             sx={{
-               overflow: 'hidden',  // Hide overflow on the container
+               overflow: 'hidden',
                boxSizing: 'border-box',
             }}
          >
+            {/* Left Panel */}
             <Grid
                item
-               sm={5}
+               xs={selected ? 0 : 12} // Hide on xs if selected, full width otherwise
+               sm={5} // Show on sm and larger
                md={5}
                lg={5}
                xl={4}
                bgcolor={'#111b21'}
                sx={{
-                  height: '100%',  // Ensure the grid item takes full height
-                  overflow: 'hidden',  // Hide overflow within the item
+                  height: '100%',
+                  overflow: 'hidden',
                   boxSizing: 'border-box',
+                  display: { xs: selected ? 'none' : 'block', sm: 'block' }, // Conditional display for xs
                }}
             >
                <Left />
             </Grid>
+
+            {/* Right Panel */}
             <Grid
                item
-               xs={12}
-               sm={7}
+               xs={selected ? 12 : 0} // Full width on xs if selected
+               sm={7} // Show on sm and larger
                md={7}
                lg={7}
                xl={8}
                bgcolor={'#2c343d'}
                sx={{
-                  display: {
-                     xs: 'none',
-                     sm: 'block',
-                  },
-                  height: '100%',  // Ensure the grid item takes full height
-                  overflow: 'hidden',  // Hide overflow within the item
+                  display: { xs: selected ? 'block' : 'none', sm: 'block' }, // Conditional display for xs
+                  height: '100%',
+                  overflow: 'hidden',
                   margin: 0,
                   padding: 0,
                   boxSizing: 'border-box',
                   backgroundImage: `url(${WhatsAppBgChatImage})`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: 'cover',
                }}
             >
                <Right />
             </Grid>
+
             <AutoSnakebar />
          </Grid>
       </>
