@@ -47,11 +47,12 @@ export default function Loading() {
                     fontSize: '60px',
                     color: 'gray'
                 }} />
-                <Box sx={{ width: '30%', my: 6 }}>
+                <Box sx={{ width: '30%', my: 6, '@media (max-width:600px)': { width: '100%' } }}>
                     <LinearProgress color='success' variant="determinate" value={progress} />
                 </Box>
                 <Box>
                     <Typography variant='h5' fontWeight={'bold'} color={'gray'}>WhatsApp</Typography>
+
                 </Box>
                 <Typography sx={{ color: 'gray', mt: 1 }} variant='body2'>
                     <HttpsIcon fontSize='0px' />{' '}End-to-end encrypted.
