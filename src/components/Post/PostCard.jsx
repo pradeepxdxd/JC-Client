@@ -1,5 +1,5 @@
 import React from 'react'
-import { chats } from '../../data/chat'
+import { chats } from '../../db/data/chat'
 import Post from './Post'
 
 export default function PostCard() {

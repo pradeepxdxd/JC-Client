@@ -36,9 +36,9 @@ export default function Left() {
                 <Grid item xs={12} mt={2}>
                     <Search />
                 </Grid>
-                <Grid item m={1} xs={12}>
+                {/* <Grid item mt={3} xs={12}>
                     <Tabs />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} mt={1}>
                     <PostCard />
                 </Grid>

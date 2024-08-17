@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box } from "@material-ui/core";
 import { MessageLeft, MessageRight } from "../../../views/Chat/Message";
 import { useSelector } from "react-redux";
@@ -22,20 +22,6 @@ export default function ChatBox() {
                 displayName="テスト"
                 avatarDisp={false}
             />
-            {/* <MessageRight
-                message="bss badhiya bhai tu suna"
-                timestamp="09:35 pm"
-                photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-                displayName="まさりぶ"
-                avatarDisp={true}
-            />
-            <MessageRight
-                message="Kya chal rha hai"
-                timestamp="09:35 pm"
-                photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-                displayName="まさりぶ"
-                avatarDisp={false}
-            /> */}
             {
                 messages && messages?.length > 0 && messages?.map(msg =>
                     <MessageRight

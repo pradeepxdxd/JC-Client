@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import { deepOrange } from "@material-ui/core/colors";
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import DoneIcon from '@mui/icons-material/Done';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -23,7 +25,7 @@ const useStyles = makeStyles((theme) =>
             textAlign: "left",
             font: "400 .9em 'Open Sans', sans-serif",
             border: "1px solid #2c343d",
-            color:'white',
+            color: 'white',
             borderRadius: "10px",
             "&:after": {
                 content: "''",
@@ -54,7 +56,7 @@ const useStyles = makeStyles((theme) =>
             marginBottom: "10px",
             padding: "10px",
             backgroundColor: "#1d7356",
-            color :'white',
+            color: 'white',
             width: "60%",
             //height: "50px",
             textAlign: "left",
@@ -96,7 +98,7 @@ const useStyles = makeStyles((theme) =>
             marginTop: "10px",
             bottom: "0px",
             right: "5px",
-            color:'#CFCFCF'
+            color: '#CFCFCF'
         },
 
         orange: {
@@ -149,11 +151,25 @@ export const MessageRight = (props) => {
     const classes = useStyles();
     const message = props.message ? props.message : "no message";
     const timestamp = props.timestamp ? props.timestamp : "";
+
+    const [messageDeliveredIcon, setMessageDeliveredIcon] = useState(null);
+
+    useEffect(() => {
+        setMessageDeliveredIcon(<DoneIcon sx={{ fontSize: '15px', ml: 1 }} />);
+        const st = setTimeout(() => setMessageDeliveredIcon(<DoneAllIcon sx={{ fontSize: '15px', ml: 1 }} />), 500)
+
+        return () => {
+            clearInterval(st)
+        }
+    }, [props]);
+    
     return (
         <div className={classes.messageRowRight}>
             <div className={classes.messageOrange}>
                 <p className={classes.messageContent}>{message}</p>
-                <div className={classes.messageTimeStampRight}>{timestamp}</div>
+                <div style={{ display: 'flex' }}>
+                    <div className={classes.messageTimeStampRight}>{timestamp}{messageDeliveredIcon}</div>
+                </div>
             </div>
         </div>
     );
