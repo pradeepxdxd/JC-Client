@@ -51,7 +51,7 @@ export default function Loading() {
                     <LinearProgress color='success' variant="determinate" value={progress} />
                 </Box>
                 <Box>
-                    <Typography variant='h5' fontWeight={'bold'} color={'gray'}>WhatsApp</Typography>
+                    <Typography variant='h5' fontWeight={'bold'} color={'gray'}>Pradeep's WhatsApp</Typography>
 
                 </Box>
                 <Typography sx={{ color: 'gray', mt: 1 }} variant='body2'>
