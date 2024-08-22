@@ -5,6 +5,7 @@
 /.pnp
 /bugs.txt
 .pnp.js
+/.env
 
 # testing
 /coverage
