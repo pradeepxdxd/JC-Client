@@ -22,14 +22,126 @@ export default function ChatBox() {
                 displayName="テスト"
                 avatarDisp={false}
             />
+            <MessageLeft
+                message="Kya haal chal rha he"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
+            <MessageLeft
+                message="Kya haal chal rha he"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
+            <MessageLeft
+                message="Kya haal chal rha he"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
+            <MessageLeft
+                message="Kya haal chal rha he"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
+            <MessageLeft
+                message="Kya haal chal rha he"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
+            <MessageLeft
+                message="Kya haal chal rha he"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
+            <MessageLeft
+                message="Kya haal chal rha he"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
+            <MessageLeft
+                message="Kya haal chal rha he"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
+            <MessageLeft
+                message="Kya haal chal rha he"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
+            <MessageLeft
+                message="Kya haal chal rha he"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
+            <MessageLeft
+                message="Kya haal chal rha he"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
+            <MessageLeft
+                message="Kya haal chal rha he"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
+            <MessageLeft
+                message="Kya haal chal rha he"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
+            <MessageLeft
+                message="Kya haal chal rha he"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
+            <MessageLeft
+                message="-----------------------------------------"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
+            <MessageLeft
+                message="sioefhjosleifhsoiefhoesihfoeishfoiehfoeshfos"
+                timestamp="09:34 pm"
+                photoURL=""
+                displayName="テスト"
+                avatarDisp={false}
+            />
             {
                 messages && messages?.length > 0 && messages?.map(msg =>
                     <MessageRight
                         message={msg.message}
                         timestamp={msg.time}
-                        // photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-                        // displayName="まさりぶ"
-                        // avatarDisp={true}
+                    // photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
+                    // displayName="まさりぶ"
+                    // avatarDisp={true}
                     />
                 )
             }

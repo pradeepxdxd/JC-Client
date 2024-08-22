@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material'
 import React from 'react'
 
-export default function TextBox({inputText, handleChange,handleSendClick}) {
+export default function TextBox({ inputText, handleChange, handleSendClick }) {
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
@@ -29,7 +29,7 @@ export default function TextBox({inputText, handleChange,handleSendClick}) {
                         backgroundColor: '#556c73',
                         height: '40px',
                         mt: 1,
-                        flexGrow : 1,
+                        flexGrow: 1,
                     },
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
@@ -45,6 +45,9 @@ export default function TextBox({inputText, handleChange,handleSendClick}) {
                             borderColor: 'white',
                         },
                     },
+                    // '@media (max-width:373px)' : {
+                    //     width : ''
+                    // }
                 }}
             />
         </>

@@ -30,25 +30,6 @@ export default function Search() {
         '& .MuiFilledInput-root .MuiInputBase-input:hover': {
           bgcolor:'#2c343d'
         },
-        // '@media (max-width: 1120px)': {
-        //   width: '380px',
-        // },
-        // '@media (max-width: 900px)': {
-        //   width: '300px',
-        // },
-        // '@media (max-width: 799px)': {
-        //   width: '270px'
-        // },
-        // '@media (max-width: 736px)': {
-        //   width: '250px'
-        // },
-        // '@media (max-width: 675px)': {
-        //   marginLeft:'20px',
-        //   width: '190px'
-        // },
-        // '@media (max-width: 600px)': {
-        //   width : '90%'
-        // },
       }}
       InputProps={{
         startAdornment: (

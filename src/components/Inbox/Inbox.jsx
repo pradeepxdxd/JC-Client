@@ -3,7 +3,6 @@ import React from 'react'
 import HeaderBar from './Header/Header-Bar'
 import FooterBar from './Footer/Footer-Bar'
 import ChatBox from './ChatBox/ChatBox'
-import MessageBar from './Footer/MessageBar'
 
 export default function Inbox() {
   return (
