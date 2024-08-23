@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, Menu, MenuItem, Typography } from '@mui/material'
+import { Badge, Grid, Menu, MenuItem, Typography } from '@mui/material'
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Search from '../../components/Search/Search';
@@ -63,6 +64,12 @@ export default function Left() {
             }}
             open={isMenuOpen}
             onClose={handleMenuClose}
+            sx={{
+                '& .MuiList-root': {
+                    backgroundColor: '#2c343d',
+                    color: '#d2d3d2'
+                }
+            }}
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>Setting</MenuItem>
@@ -83,7 +90,9 @@ export default function Left() {
                         paddingLeft: '0px'
                     }
                 }}>
-                    <AddCommentIcon sx={{ color: 'white', cursor: 'pointer' }} />
+                    <Badge badgeContent={4} color="error">
+                        <NotificationsNoneIcon sx={{ color: 'white', cursor: 'pointer' }} />
+                    </Badge>
                 </Grid>
                 <Grid item xs={2} onClick={handleMenuOpen} >
                     <MoreVertIcon sx={{ color: 'white', cursor: 'pointer' }} />

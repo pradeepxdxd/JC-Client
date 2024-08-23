@@ -122,8 +122,8 @@ const useStyles = makeStyles((theme) =>
 export const MessageLeft = (props) => {
     const message = props.message ? props.message : "no message";
     const timestamp = props.timestamp ? props.timestamp : "";
-    const photoURL = props.photoURL ? props.photoURL : "dummy.js";
-    const displayName = props.displayName ? props.displayName : "名無しさん";
+    // const photoURL = props.photoURL ? props.photoURL : "dummy.js";
+    // const displayName = props.displayName ? props.displayName : "名無しさん";
     const classes = useStyles();
     return (
         <>
@@ -134,7 +134,7 @@ export const MessageLeft = (props) => {
                     src={photoURL}
                 ></Avatar> */}
                 <div>
-                    <div className={classes.displayName}>{displayName}</div>
+                    {/* <div className={classes.displayName}>{displayName}</div> */}
                     <div className={classes.messageBlue}>
                         <div>
                             <p className={classes.messageContent}>{message}</p>

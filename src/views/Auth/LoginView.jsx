@@ -34,7 +34,7 @@ export default function LoginView({ setView }) {
     }
     else if (statusCode == '500' && msg.length > 0) {
       handleClose()
-      toast.error('Something went wrong')
+      toast.error(msg)
     }
   }, [dispatch, statusCode])
 

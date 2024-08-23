@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../configs/dev";
 import axios from "axios";
@@ -5,7 +6,8 @@ import axios from "axios";
 export const login = createAsyncThunk('auth/login', async params => {
     try {
         const response = await axios.post(`${BASE_URL}/auth/login`, params);
-        return response.data
+        if (!!response.data.token) return response.data
+        else throw new Error('Username and Password incorrect!')
     }
     catch (err) {
         throw new Error('Something went wrong, please try again later')
@@ -47,7 +49,8 @@ const authSlice = createSlice({
             state.toast = ''
         })
         builder.addCase(login.fulfilled, (state, action) => {
-            if (action.payload.token !== '' || action.payload.token !== undefined || action.payload.token !== null) {
+            console.log({ payload: action.payload })
+            if (!!action.payload.token) {
                 localStorage.setItem('token', action.payload.token)
                 state.token = action.payload.token
                 state.statusCode = action.payload.statusCode
@@ -56,6 +59,7 @@ const authSlice = createSlice({
         })
         builder.addCase(login.rejected, (state, action) => {
             state.toast = action.error.message
+            state.statusCode = '500'
         })
 
         builder.addCase(signUp.pending, state => {

@@ -43,7 +43,7 @@ export default function DashboardView() {
               '&:hover': {
                 bgcolor: '#1ccd97'
               },
-              fontWeight: '500'
+              fontWeight: '500' 
             }}>Get From MicroSoft Store
             </Button>
           </Box>
