@@ -27,7 +27,7 @@ const authSlice = createSlice({
     initialState: {
         token: localStorage.getItem('token') || '',
         toast: '',
-        loading : false,
+        loading: false,
         statusCode: ''
     },
     reducers: {
@@ -38,7 +38,7 @@ const authSlice = createSlice({
         getToken: state => {
             return state.token ? state.token : localStorage.getItem('token')
         },
-        clearToastMessage : state => {
+        clearToastMessage: state => {
             state.toast = ''
         }
     },
@@ -51,6 +51,7 @@ const authSlice = createSlice({
                 localStorage.setItem('token', action.payload.token)
                 state.token = action.payload.token
                 state.statusCode = action.payload.statusCode
+                state.toast = action.payload.error
             }
         })
         builder.addCase(login.rejected, (state, action) => {

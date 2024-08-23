@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 export default function LoginView({ setView }) {
   const [open, setOpen] = useState(false);
 
-  const { statusCode, toast : msg } = useSelector(state => state.auth)
+  const { statusCode, toast: msg } = useSelector(state => state.auth)
   const dispatch = useDispatch()
 
   const handleClose = () => {
@@ -28,7 +28,7 @@ export default function LoginView({ setView }) {
   };
 
   useEffect(() => {
-    if (statusCode == '401' && msg.length > 0) {
+    if (statusCode == 401 && msg.length > 0) {
       handleClose()
       toast.error('Username and Password Incorrect!')
     }
@@ -36,12 +36,19 @@ export default function LoginView({ setView }) {
       handleClose()
       toast.error('Something went wrong')
     }
-    dispatch(clearToastMessage())
   }, [dispatch, statusCode])
+
+  useEffect(() => {
+    new Promise((resolve, reject) => {
+      setTimeout(resolve, 1000)
+    }).then(() => {
+      dispatch(clearToastMessage())
+    })
+  }, [dispatch, msg])
 
   return (
     <Box style={{ color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', margin: 'auto', width: '100%', height: '90vh' }}>
-      <AccountProfileIcon/>
+      <AccountProfileIcon />
       <Formik
         initialValues={{ username: '', password: '' }}
         validationSchema={loginValidationSchema}
