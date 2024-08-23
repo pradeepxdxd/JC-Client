@@ -1,19 +1,74 @@
-import React from 'react'
-import { Grid, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Grid, Menu, MenuItem, Typography } from '@mui/material'
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Search from '../../components/Search/Search';
 import Tabs from '../../components/Tabs/Tabs';
 import PostCard from '../../components/Post/PostCard';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { handleSnackbarClick } from '../../store/ui/snakebar/snakebar.slice'
+import { logout } from '../../store/auth/auth.slice'
+import { handleBackDropClose, handleBackDropOpen } from '../../store/ui/backdrop/backdrop.slice';
+import BackDrop from '../../animations/BackDrop';
 
 export default function Left() {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const isMenuOpen = Boolean(anchorEl);
+
+    const { backdrop } = useSelector(state => state.backdrop)
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        let spinner;
+        if (backdrop) {
+            spinner = setTimeout(() => {
+                dispatch(handleBackDropClose())
+            }, 7000);
+        }
+        return () => {
+            clearInterval(spinner)
+        }
+    }, [backdrop, dispatch])
+
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
 
     const handleWorking = () => {
         dispatch(handleSnackbarClick())
     }
+
+    const handleLogout = () => {
+        handleMenuClose()
+        dispatch(logout())
+        dispatch(handleBackDropOpen())
+    }
+
+    const renderMenu = (
+        <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            id="menuId"
+            keepMounted
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
+        >
+            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Setting</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        </Menu>
+    );
 
     return (
         <div>
@@ -30,7 +85,7 @@ export default function Left() {
                 }}>
                     <AddCommentIcon sx={{ color: 'white', cursor: 'pointer' }} />
                 </Grid>
-                <Grid item xs={2} onClick={handleWorking} >
+                <Grid item xs={2} onClick={handleMenuOpen} >
                     <MoreVertIcon sx={{ color: 'white', cursor: 'pointer' }} />
                 </Grid>
                 <Grid item xs={12} mt={2}>
@@ -43,6 +98,8 @@ export default function Left() {
                     <PostCard />
                 </Grid>
             </Grid>
+            {renderMenu}
+            <BackDrop />
         </div>
     )
 }

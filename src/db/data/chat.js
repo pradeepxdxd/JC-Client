@@ -37,7 +37,7 @@ export const chats = [
         user_name : USER4,
         image: kalpeshImage,
         time : '19/03/2024',
-        message : 'Pyse to dede bhai',
+        message : 'or bhai',
         unread : true,
         clientMessageStatus : 'incoming',// [read, sent, delivered, incoming]
         lines:'2',
