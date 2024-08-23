@@ -11,22 +11,22 @@ export const loginValidationSchema = object({
 
 export const signUpValidationSchema = object({
     firstname: string()
-        .required('Username is required')
-        .min(3, 'Username more than 3 character')
-        .max(10, 'Username should be less than 10')
-        .matches(/^\S*$/, 'Password must not contain spaces')
-        .matches(/^[A-Za-z]+$/, 'First name must contain only letters'),
+        .required('First Name is required')
+        .min(3, 'First Name more than 3 character')
+        .max(10, 'First Name should be less than 10')
+        .matches(/^\S*$/, 'First Name must not contain spaces')
+        .matches(/^[A-Z][a-z]*$/, 'First name must start with a capital letter and contain only letters'),
     lastname: string()
-        .required('Username is required')
-        .min(3, 'Username more than 3 character')
-        .max(10, 'Username should be less than 10')
-        .matches(/^\S*$/, 'Password must not contain spaces')
-        .matches(/^[A-Za-z]+$/, 'First name must contain only letters'),
+        .required('Last Name is required')
+        .min(3, 'Last Name more than 3 character')
+        .max(10, 'Last Name should be less than 10')
+        .matches(/^\S*$/, 'Last Name must not contain spaces')
+        .matches(/^[A-Z][a-z]*$/, 'Last name must start with a capital letter and contain only letters'),
     username: string()
         .required('Username is required')
         .min(3, 'Username more than 3 character')
         .max(10, 'Username should be less than 10')
-        .matches(/^\S*$/, 'Password must not contain spaces'),
+        .matches(/^\S*$/, 'Username must not contain spaces'),
     password: string()
         .required('Password is required')
         .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')

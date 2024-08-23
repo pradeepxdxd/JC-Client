@@ -1,7 +1,7 @@
 import { Field } from 'formik'
 import React from 'react'
 
-export default function FormikField({ name, component, label, value, handleBlur, props }) {
+export default function FormikField({ name, component, label, value, handleBlur, disabled }) {
     return (
         <>
             <Field
@@ -11,6 +11,7 @@ export default function FormikField({ name, component, label, value, handleBlur,
                 label={label}
                 onBlur={handleBlur}
                 value={value}
+                disabled={disabled}
                 InputProps={{
                     style: { color: 'gray' },
                     disableUnderline: true,
@@ -35,11 +36,14 @@ export default function FormikField({ name, component, label, value, handleBlur,
                             borderColor: 'transparent',  // Removes blue border on focus
                         },
                     },
-
-                    '@media (max-width:445px)' : {
+                    '& .MuiInputBase-input.Mui-disabled': {
+                        color: 'gray',  // Ensures text is gray when disabled
+                        '-webkit-text-fill-color': 'gray',  // For webkit browsers
+                    },
+                    '@media (max-width:445px)': {
                         width: '300px',
                     },
-                    '@media (max-width:314px)' : {
+                    '@media (max-width:314px)': {
                         width: '230px',
                     },
                 }}

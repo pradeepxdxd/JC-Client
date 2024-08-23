@@ -27,7 +27,8 @@ const authSlice = createSlice({
     initialState: {
         token: localStorage.getItem('token') || '',
         toast: '',
-        statusCode: 0
+        loading : false,
+        statusCode: ''
     },
     reducers: {
         logout: state => {
@@ -36,6 +37,9 @@ const authSlice = createSlice({
         },
         getToken: state => {
             return state.token ? state.token : localStorage.getItem('token')
+        },
+        clearToastMessage : state => {
+            state.toast = ''
         }
     },
     extraReducers: builder => {
@@ -55,15 +59,20 @@ const authSlice = createSlice({
 
         builder.addCase(signUp.pending, state => {
             state.toast = ''
+            state.loading = true
         })
         builder.addCase(signUp.fulfilled, (state, action) => {
+            state.loading = false
             state.toast = action.payload.message
+            state.statusCode = action.payload.statusCode
         })
         builder.addCase(signUp.rejected, (state, action) => {
+            state.loading = false
             state.toast = action.error.message
+            state.statusCode = action.payload.statusCode
         })
     }
 })
 
-export const { logout, getToken } = authSlice.actions;
+export const { logout, getToken, clearToastMessage } = authSlice.actions;
 export default authSlice.reducer;

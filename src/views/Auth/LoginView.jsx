@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable eqeqeq */
 import React, { useEffect, useState } from 'react'
 import { Box, Button } from '@material-ui/core'
@@ -7,7 +8,7 @@ import { TextField } from 'formik-material-ui'
 import AccountProfileIcon from '../../icons/AccountProfileIcon'
 import FormikField from '../../components/TextBox/FormikField'
 import { loginValidationSchema } from '../../validations/auth';
-import { login } from '../../store/auth/auth.slice';
+import { clearToastMessage, login } from '../../store/auth/auth.slice';
 import { useDispatch, useSelector } from 'react-redux';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -16,7 +17,7 @@ import { toast } from 'react-toastify';
 export default function LoginView({ setView }) {
   const [open, setOpen] = useState(false);
 
-  const { statusCode } = useSelector(state => state.auth)
+  const { statusCode, toast : msg } = useSelector(state => state.auth)
   const dispatch = useDispatch()
 
   const handleClose = () => {
@@ -27,14 +28,15 @@ export default function LoginView({ setView }) {
   };
 
   useEffect(() => {
-    if (statusCode == '401') {
+    if (statusCode == '401' && msg.length > 0) {
       handleClose()
       toast.error('Username and Password Incorrect!')
     }
-    else if (statusCode == '500') {
+    else if (statusCode == '500' && msg.length > 0) {
       handleClose()
       toast.error('Something went wrong')
     }
+    dispatch(clearToastMessage())
   }, [dispatch, statusCode])
 
   return (
