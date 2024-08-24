@@ -28,9 +28,9 @@ export default function LoginView({ setView }) {
   };
 
   useEffect(() => {
-    if (statusCode == 401 && msg.length > 0) {
+    if (statusCode == '401' && msg.length > 0) {
       handleClose()
-      toast.error('Username and Password Incorrect!')
+      toast.error(msg)
     }
     else if (statusCode == '500' && msg.length > 0) {
       handleClose()

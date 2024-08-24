@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useEffect, useState } from 'react';
 import Layout from './layouts/Layout';
 import Loading from './views/Loading/Loading';

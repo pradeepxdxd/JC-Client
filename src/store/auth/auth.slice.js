@@ -3,16 +3,47 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../configs/dev";
 import axios from "axios";
 
-export const login = createAsyncThunk('auth/login', async params => {
+// export const login = createAsyncThunk('auth/login', async params => {
+//     try {
+//         const response = await axios.post(`${BASE_URL}/auth/login`, params);
+
+//         if (response.data.statusCode == 201) {
+//             return response.data
+//         }
+
+//         else {
+//             console.log('/////////////////////')
+//             throw new Error(response.data.message)
+//         }
+//     }
+//     catch (err) {
+//         console.log({ err })
+//         throw new Error('Something went wrong, please try again later')
+//     }
+// })
+
+export const login = createAsyncThunk('auth/login', async (params, { rejectWithValue }) => {
     try {
         const response = await axios.post(`${BASE_URL}/auth/login`, params);
-        if (!!response.data.token) return response.data
-        else throw new Error('Username and Password incorrect!')
+
+        if (response.data.statusCode === 201) {
+            return response.data;
+        } else {
+            console.log({response})
+            return rejectWithValue({ message: response.data.error, statusCode: response.data.statusCode });
+        }
+    } catch (err) {
+        // Check if the error is an Axios error with a response
+        if (err.response && err.response.data) {
+            // Return the error response data
+            return rejectWithValue({ message: err.response.data.message, statusCode: err.response.data.statusCode });
+        } else {
+            // Return a generic error message
+            return rejectWithValue({ message: 'Something went wrong, please try again later', statusCode: 500 });
+        }
     }
-    catch (err) {
-        throw new Error('Something went wrong, please try again later')
-    }
-})
+});
+
 
 export const signUp = createAsyncThunk('auth/signUp', async params => {
     try {
@@ -42,6 +73,7 @@ const authSlice = createSlice({
         },
         clearToastMessage: state => {
             state.toast = ''
+            state.statusCode = ''
         }
     },
     extraReducers: builder => {
@@ -49,7 +81,6 @@ const authSlice = createSlice({
             state.toast = ''
         })
         builder.addCase(login.fulfilled, (state, action) => {
-            console.log({ payload: action.payload })
             if (!!action.payload.token) {
                 localStorage.setItem('token', action.payload.token)
                 state.token = action.payload.token
@@ -58,8 +89,9 @@ const authSlice = createSlice({
             }
         })
         builder.addCase(login.rejected, (state, action) => {
-            state.toast = action.error.message
-            state.statusCode = '500'
+            console.log({ action })
+            state.toast = action.payload.message
+            state.statusCode = action.payload.statusCode
         })
 
         builder.addCase(signUp.pending, state => {
@@ -81,3 +113,12 @@ const authSlice = createSlice({
 
 export const { logout, getToken, clearToastMessage } = authSlice.actions;
 export default authSlice.reducer;
+
+
+// console.log({response})
+// if (response.data.statusCode == '401') throw new Error(response.data.error)
+// if (!!response.data.token) return response.data
+// else throw new Error('Username and Password incorrect!')
+
+
+// else throw new Error({ statusCode: response?.data?.statusCode, message: response.data.message })
