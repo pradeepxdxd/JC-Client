@@ -3,30 +3,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../configs/dev";
 import axios from "axios";
 
-// export const login = createAsyncThunk('auth/login', async params => {
-//     try {
-//         const response = await axios.post(`${BASE_URL}/auth/login`, params);
-
-//         if (response.data.statusCode == 201) {
-//             return response.data
-//         }
-
-//         else {
-//             console.log('/////////////////////')
-//             throw new Error(response.data.message)
-//         }
-//     }
-//     catch (err) {
-//         console.log({ err })
-//         throw new Error('Something went wrong, please try again later')
-//     }
-// })
-
 export const login = createAsyncThunk('auth/login', async (params, { rejectWithValue }) => {
     try {
         const response = await axios.post(`${BASE_URL}/auth/login`, params);
 
-        if (response.data.statusCode === 201) {
+        if (response.data.statusCode === 200) {
             return response.data;
         } else {
             console.log({response})
@@ -113,12 +94,3 @@ const authSlice = createSlice({
 
 export const { logout, getToken, clearToastMessage } = authSlice.actions;
 export default authSlice.reducer;
-
-
-// console.log({response})
-// if (response.data.statusCode == '401') throw new Error(response.data.error)
-// if (!!response.data.token) return response.data
-// else throw new Error('Username and Password incorrect!')
-
-
-// else throw new Error({ statusCode: response?.data?.statusCode, message: response.data.message })
