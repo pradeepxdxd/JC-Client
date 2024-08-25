@@ -40,14 +40,13 @@ export default function App() {
 
   return (
     <>
-      {/* <ToastContainer /> */}
-      {/* <div style={{ transition: 'opacity 0.5s ease', opacity: opacity }}> */}
-        {/* {view === 'loading' ? <Loading /> : view === 'auth' ? <Auth /> : <Layout />} */}
-      {/* </div> */}
-      <Layout/>
+      <ToastContainer />
+      <div style={{ transition: 'opacity 0.5s ease', opacity: opacity }}>
+        {view === 'loading' ? <Loading /> : view === 'auth' ? <Auth /> : <Layout />}
+      </div>
     </>
   );
 }
 
 // eslint-disable-next-line no-lone-blocks
-{/* {view === 'loading' ? <Loading /> : <Layout />} */}
+{/* {view === 'loading' ? <Loading /> : <Layout />} */ }
