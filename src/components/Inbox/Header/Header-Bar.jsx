@@ -9,8 +9,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Avatar, Tooltip } from '@mui/material';
 import VideocamIcon from '@mui/icons-material/Videocam';
@@ -25,6 +23,7 @@ export default function PrimarySearchAppBar() {
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
     const { name, image } = useSelector(state => state.profileSlice)
+    const { flag, info } = useSelector(state => state.friend)
 
     const dispatch = useDispatch()
 
@@ -131,11 +130,11 @@ export default function PrimarySearchAppBar() {
                     </Box>
                     <Tooltip title="Profile Details">
                         <IconButton sx={{ p: 0 }} onClick={() => dispatch(handleSnackbarClick())}>
-                            <Avatar alt="Pradeep" src={image} />
+                            <Avatar alt={`${info?.firstname}`} src={image || `${info?.profileImage}`} />
                         </IconButton>
                     </Tooltip>
                     <Typography ml={2} variant='body1' fontWeight={'bold'}>
-                        {name}
+                        {name || `${info?.firstname} ${info?.lastname}`}
                     </Typography>
 
                     <Box sx={{ flexGrow: 1 }} />

@@ -6,6 +6,7 @@ import selectedUserSlice from './selectedUser/selectedUser.slice'
 import authSlice from "./auth/auth.slice";
 import backdropSlice from "./ui/backdrop/backdrop.slice";
 import userSlice from "./auth/user.slice";
+import friendSlice from "./friend/friend.slice";
 
 const store = configureStore({
     reducer: {
@@ -15,7 +16,8 @@ const store = configureStore({
         selectedUserSlice,
         auth: authSlice,
         backdrop: backdropSlice,
-        user: userSlice
+        user: userSlice,
+        friend: friendSlice,
     }
 })
 

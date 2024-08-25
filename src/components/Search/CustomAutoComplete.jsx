@@ -12,6 +12,11 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchUsers } from '../../store/auth/user.slice'
 import useDebounce from '../../hooks/useDebounce';
+import { getUserId } from '../../utils/auth';
+import { userSelected } from '../../store/selectedUser/selectedUser.slice';
+import { clearMessages } from '../../store/message/message.slice';
+import { getUserInfo } from '../../store/friend/friend.slice';
+import { resetProfile } from '../../store/profile/profile.slice';
 
 export default function AutocompleteWithCustomList() {
     const [textInput, setTextInput] = React.useState('')
@@ -30,6 +35,13 @@ export default function AutocompleteWithCustomList() {
             dispatch(searchUsers(debounce))
     }, [debounce])
 
+    const handleProfileClick = option => {
+        dispatch(userSelected())
+        dispatch(clearMessages())
+        dispatch(getUserInfo({ userId: getUserId(), friendId: option?._id }))
+        dispatch(resetProfile())
+    }
+
     return (
         <Autocomplete
             freeSolo
@@ -47,7 +59,7 @@ export default function AutocompleteWithCustomList() {
             disableClearable
             renderOption={(props, option) => (
                 <React.Fragment key={option._id}>
-                    <ListItem {...props} alignItems="flex-start">
+                    <ListItem {...props} alignItems="flex-start" onClick={() => handleProfileClick(option)}>
                         <ListItemAvatar>
                             <Avatar alt={option.username} src={option.profileImage} />
                         </ListItemAvatar>

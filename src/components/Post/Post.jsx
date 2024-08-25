@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setProfile } from '../../store/profile/profile.slice';
 import { clearMessages } from '../../store/message/message.slice';
 import { userSelected } from '../../store/selectedUser/selectedUser.slice'
+import { getUserInfo } from '../../store/friend/friend.slice'
 
 export default function Post({ data }) {
   const dispatch = useDispatch()
@@ -15,6 +16,7 @@ export default function Post({ data }) {
     dispatch(setProfile({ name: data.user_name, image: data.image }))
     dispatch(clearMessages())
     dispatch(userSelected())
+    
   }
 
   return (

@@ -12,8 +12,13 @@ const profileSlice = createSlice({
             state.name = action.payload.name
             state.image = action.payload.image
         },
+        resetProfile: (state, action) => {
+            // eslint-disable-next-line no-unused-expressions
+            state.name = ''
+            state.image = ''
+        },
     }
 })
 
-export const { setProfile } = profileSlice.actions;
+export const { setProfile, resetProfile } = profileSlice.actions;
 export default profileSlice.reducer;

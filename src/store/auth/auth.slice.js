@@ -2,6 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../configs/dev";
 import axios from "axios";
+import {jwtDecode} from 'jwt-decode'
 
 export const login = createAsyncThunk('auth/login', async (params, { rejectWithValue }) => {
     try {
@@ -10,7 +11,7 @@ export const login = createAsyncThunk('auth/login', async (params, { rejectWithV
         if (response.data.statusCode === 200) {
             return response.data;
         } else {
-            return rejectWithValue({ message: response.data.error, statusCode: response.data.statusCode });
+            return rejectWithValue({ message: response.data.message, statusCode: response.data.statusCode });
         }
     } catch (err) {
         // Check if the error is an Axios error with a response
@@ -62,14 +63,16 @@ const authSlice = createSlice({
         })
         builder.addCase(login.fulfilled, (state, action) => {
             if (!!action?.payload?.token) {
+                const {userId} = jwtDecode(action.payload.token)
+                console.log({payload:userId})
                 localStorage.setItem('token', action.payload.token)
+                localStorage.setItem('uid', userId);
                 state.token = action.payload.token
                 state.statusCode = action.payload.statusCode
-                state.toast = action.payload.error
+                state.toast = action.payload.message
             }
         })
         builder.addCase(login.rejected, (state, action) => {
-            console.log({ action })
             state.toast = action.payload.message
             state.statusCode = action.payload.statusCode
         })
