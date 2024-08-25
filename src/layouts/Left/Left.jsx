@@ -3,7 +3,7 @@ import { Badge, Grid, Menu, MenuItem, Typography } from '@mui/material'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Search from '../../components/Search/Search';
+import AutoComplete from '../../components/Search/CustomAutoComplete';
 import Tabs from '../../components/Tabs/Tabs';
 import PostCard from '../../components/Post/PostCard';
 import { useDispatch, useSelector } from 'react-redux';
@@ -98,7 +98,7 @@ export default function Left() {
                     <MoreVertIcon sx={{ color: 'white', cursor: 'pointer' }} />
                 </Grid>
                 <Grid item xs={12} mt={2}>
-                    <Search />
+                    <AutoComplete />
                 </Grid>
                 {/* <Grid item mt={3} xs={12}>
                     <Tabs />

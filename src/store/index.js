@@ -5,6 +5,7 @@ import snakebarSlice from "./ui/snakebar/snakebar.slice";
 import selectedUserSlice from './selectedUser/selectedUser.slice'
 import authSlice from "./auth/auth.slice";
 import backdropSlice from "./ui/backdrop/backdrop.slice";
+import userSlice from "./auth/user.slice";
 
 const store = configureStore({
     reducer: {
@@ -13,7 +14,8 @@ const store = configureStore({
         snakebarSlice,
         selectedUserSlice,
         auth: authSlice,
-        backdrop: backdropSlice
+        backdrop: backdropSlice,
+        user: userSlice
     }
 })
 

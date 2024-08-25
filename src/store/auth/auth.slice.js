@@ -10,7 +10,6 @@ export const login = createAsyncThunk('auth/login', async (params, { rejectWithV
         if (response.data.statusCode === 200) {
             return response.data;
         } else {
-            console.log({response})
             return rejectWithValue({ message: response.data.error, statusCode: response.data.statusCode });
         }
     } catch (err) {
@@ -62,7 +61,7 @@ const authSlice = createSlice({
             state.toast = ''
         })
         builder.addCase(login.fulfilled, (state, action) => {
-            if (!!action.payload.token) {
+            if (!!action?.payload?.token) {
                 localStorage.setItem('token', action.payload.token)
                 state.token = action.payload.token
                 state.statusCode = action.payload.statusCode
