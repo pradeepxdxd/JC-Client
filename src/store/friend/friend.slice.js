@@ -43,6 +43,46 @@ export const getFriendList = createAsyncThunk('friend/getFriendList', async (par
     }
 })
 
+export const sendFriendRequest = createAsyncThunk('friend/sendFriendRequest', async ({ userId, friendId }, { rejectWithValue }) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/friend/send`, { userId, friendId });
+        if (response.status === 201) {
+            return response.data;
+        }
+        else {
+            return rejectWithValue({ message: response.data.message, statusCode: response.data.statusCode })
+        }
+    }
+    catch (err) {
+        if (err.response && err.response.data) {
+            return rejectWithValue({ message: err.response.data.message, statusCode: err.response.data.statusCode });
+        }
+        else {
+            return rejectWithValue({ message: 'Something went wrong, please try again later', statusCode: 500 });
+        }
+    }
+})
+
+export const acceptFriendRequest = createAsyncThunk('friend/acceptFriendRequest', async ({ userId, friendId }, { rejectWithValue }) => {
+    try {
+        const response = await axios.patch(`${BASE_URL}/friend/accept`, { userId, friendId });
+        if (response.status === 203) {
+            return response.data;
+        }
+        else {
+            return rejectWithValue({ message: response.data.message, statusCode: response.data.statusCode })
+        }
+    }
+    catch (err) {
+        if (err.response && err.response.data) {
+            return rejectWithValue({ message: err.response.data.message, statusCode: err.response.data.statusCode });
+        }
+        else {
+            return rejectWithValue({ message: 'Something went wrong, please try again later', statusCode: 500 });
+        }
+    }
+})
+
 const friendSlice = createSlice({
     name: 'friend',
     initialState: {
@@ -50,6 +90,7 @@ const friendSlice = createSlice({
         info: null,
         loading: false,
         friendList: [],
+        message: '',
     },
     reducers: {
         clearState: state => {
@@ -84,6 +125,34 @@ const friendSlice = createSlice({
         })
         builder.addCase(getFriendList.rejected, (state, action) => {
             state.loading = false
+        })
+
+        builder.addCase(sendFriendRequest.pending, state => {
+            state.loading = false
+        })
+        builder.addCase(sendFriendRequest.fulfilled, (state, action) => {
+            state.loading = false
+            state.message = action.payload.message
+            state.flag = action.payload.flag
+            state.info = { ...state.info, accept: action.payload.accept }
+        })
+        builder.addCase(sendFriendRequest.rejected, (state, action) => {
+            state.loading = false
+            state.message = action.error.message
+        })
+
+        builder.addCase(acceptFriendRequest.pending, state => {
+            state.loading = false
+        })
+        builder.addCase(acceptFriendRequest.fulfilled, (state, action) => {
+            state.loading = false
+            state.message = action.payload.message
+            state.info = { ...state.info, accept: action.payload.accept }
+            state.friendList = [...state.friendList, action.payload.user[0] ]
+        })
+        builder.addCase(acceptFriendRequest.rejected, (state, action) => {
+            state.loading = false
+            state.message = action.error.message
         })
     }
 })

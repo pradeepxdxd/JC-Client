@@ -15,8 +15,8 @@ export default function Post({ data }) {
   const dispatch = useDispatch()
 
   const handleClick = () => {
-    dispatch(setProfile({ name: data?.userInfo?.firstname + ' ' + data?.userInfo?.lastname, image: data?.userInfo?.profileImage }))
-    dispatch(getUserInfo({ userId: getUserId(), friendId: data?.userInfo?._id }))
+    dispatch(setProfile({ name: data?.firstname + ' ' + data?.lastname, image: data?.profileImage }))
+    dispatch(getUserInfo({ userId: getUserId(), friendId: data?._id }))
     dispatch(clearMessages())
     dispatch(userSelected())
   }
@@ -43,7 +43,7 @@ export default function Post({ data }) {
             <Avatar
               sx={{ bgcolor: red[500], marginRight: 2 }}
               aria-label="recipe"
-              src={data?.userInfo?.profileImage || PROFILE_IMAGE}
+              src={data?.profileImage || PROFILE_IMAGE}
               alt="error"
             />
           }
@@ -94,7 +94,7 @@ export default function Post({ data }) {
                 },
               }}
             >
-              {data?.userInfo?.firstname + ' ' + data?.userInfo?.lastname || ''}
+              {data?.firstname + ' ' + data?.lastname || ''}
             </Typography>
           }
           subheader={
