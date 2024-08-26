@@ -5,7 +5,7 @@ import { BASE_URL } from "../../configs/dev";
 export const getUserInfo = createAsyncThunk('friend/getUserInfo', async ({ userId, friendId }, { rejectWithValue }) => {
     try {
         const response = await axios.get(`${BASE_URL}/friend/info?userId=${userId}&friendId=${friendId}`);
-        if (response.status === 200 && response.statusText === 'OK') {
+        if (response.status === 200) {
             return response.data;
         }
         else {
