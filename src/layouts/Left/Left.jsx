@@ -11,12 +11,15 @@ import { handleSnackbarClick } from '../../store/ui/snakebar/snakebar.slice'
 import { logout } from '../../store/auth/auth.slice'
 import { handleBackDropClose, handleBackDropOpen } from '../../store/ui/backdrop/backdrop.slice';
 import BackDrop from '../../animations/BackDrop';
+import { getFriendList } from '../../store/friend/friend.slice';
+import { getUserId } from '../../utils/auth';
 
 export default function Left() {
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
 
     const { backdrop } = useSelector(state => state.backdrop)
+    
     const dispatch = useDispatch()
 
     useEffect(() => {

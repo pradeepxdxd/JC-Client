@@ -17,8 +17,6 @@ export default function Right() {
     }
   }, [flag, name])
 
-  console.log(isUserSelected)
-
   return (
     <>
       {

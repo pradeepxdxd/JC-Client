@@ -22,12 +22,34 @@ export const getUserInfo = createAsyncThunk('friend/getUserInfo', async ({ userI
     }
 });
 
+export const getFriendList = createAsyncThunk('friend/getFriendList', async (params, { rejectWithValue }) => {
+    try {
+        const response = await axios.get(`${BASE_URL}/friend/${params}`);
+
+        if (response.status === 200) {
+            return response.data.data
+        }
+        else {
+            return rejectWithValue({ message: response.data.message, statusCode: response.data.statusCode })
+        }
+    }
+    catch (err) {
+        if (err.response && err.response.data) {
+            return rejectWithValue({ message: err.response.data.message, statusCode: err.response.data.statusCode });
+        }
+        else {
+            return rejectWithValue({ message: 'Something went wrong, please try again later', statusCode: 500 });
+        }
+    }
+})
+
 const friendSlice = createSlice({
     name: 'friend',
     initialState: {
         flag: '',
         info: null,
-        loading: false
+        loading: false,
+        friendList: [],
     },
     reducers: {
         clearState: state => {
@@ -51,8 +73,20 @@ const friendSlice = createSlice({
             state.flag = ''
             state.info = null
         })
+
+        builder.addCase(getFriendList.pending, state => {
+            state.loading = false
+            state.friendList = []
+        })
+        builder.addCase(getFriendList.fulfilled, (state, action) => {
+            state.loading = false
+            state.friendList = action.payload
+        })
+        builder.addCase(getFriendList.rejected, (state, action) => {
+            state.loading = false
+        })
     }
 })
 
-export const {clearState} = friendSlice.actions;
+export const { clearState } = friendSlice.actions;
 export default friendSlice.reducer;

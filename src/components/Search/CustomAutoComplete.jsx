@@ -16,7 +16,7 @@ import { getUserId } from '../../utils/auth';
 import { userSelected } from '../../store/selectedUser/selectedUser.slice';
 import { clearMessages } from '../../store/message/message.slice';
 import { getUserInfo } from '../../store/friend/friend.slice';
-import { resetProfile } from '../../store/profile/profile.slice';
+import { resetProfile, setProfile } from '../../store/profile/profile.slice';
 
 export default function AutocompleteWithCustomList() {
     const [textInput, setTextInput] = React.useState('')
@@ -40,6 +40,7 @@ export default function AutocompleteWithCustomList() {
         dispatch(clearMessages())
         dispatch(getUserInfo({ userId: getUserId(), friendId: option?._id }))
         dispatch(resetProfile())
+        dispatch(setProfile({ name: option?.firstname + ' ' + option?.lastname, image: option?.profileImage }))
     }
 
     return (

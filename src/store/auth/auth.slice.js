@@ -48,6 +48,7 @@ const authSlice = createSlice({
         logout: state => {
             state.token = ''
             localStorage.removeItem('token')
+            localStorage.removeItem('uid')
         },
         getToken: state => {
             return state.token ? state.token : localStorage.getItem('token')
@@ -64,7 +65,6 @@ const authSlice = createSlice({
         builder.addCase(login.fulfilled, (state, action) => {
             if (!!action?.payload?.token) {
                 const {userId} = jwtDecode(action.payload.token)
-                console.log({payload:userId})
                 localStorage.setItem('token', action.payload.token)
                 localStorage.setItem('uid', userId);
                 state.token = action.payload.token

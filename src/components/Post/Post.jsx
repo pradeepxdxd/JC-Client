@@ -4,27 +4,29 @@ import { red } from '@mui/material/colors';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import DoneIcon from '@mui/icons-material/Done';
 import { useDispatch } from 'react-redux';
-import { setProfile } from '../../store/profile/profile.slice';
 import { clearMessages } from '../../store/message/message.slice';
 import { userSelected } from '../../store/selectedUser/selectedUser.slice'
 import { getUserInfo } from '../../store/friend/friend.slice'
+import { setProfile } from '../../store/profile/profile.slice'
+import { PROFILE_IMAGE } from '../../constants/avatar';
+import { getUserId } from '../../utils/auth';
 
 export default function Post({ data }) {
   const dispatch = useDispatch()
 
   const handleClick = () => {
-    dispatch(setProfile({ name: data.user_name, image: data.image }))
+    dispatch(setProfile({ name: data?.userInfo?.firstname + ' ' + data?.userInfo?.lastname, image: data?.userInfo?.profileImage }))
+    dispatch(getUserInfo({ userId: getUserId(), friendId: data?.userInfo?._id }))
     dispatch(clearMessages())
     dispatch(userSelected())
-    
   }
 
   return (
-    <Grid container item xs={12} style={{ width: '100%' }}> {/* Ensure full width */}
+    <Grid container item xs={12} style={{ width: '100%' }}>
       <Card
         onClick={handleClick}
         sx={{
-          width: '90%', // Ensure the card fills the width
+          width: '90%',
           bgcolor: '#111b21',
           cursor: 'pointer',
           '& .MuiCardHeader-avatar': {
@@ -41,7 +43,7 @@ export default function Post({ data }) {
             <Avatar
               sx={{ bgcolor: red[500], marginRight: 2 }}
               aria-label="recipe"
-              src={data.image}
+              src={data?.userInfo?.profileImage || PROFILE_IMAGE}
               alt="error"
             />
           }
@@ -54,7 +56,7 @@ export default function Post({ data }) {
                     variant="body2"
                     sx={{ color: '#d2d3d2', marginLeft: 'auto', paddingRight: 2, marginTop: '10px' }}
                   >
-                    {data.time}
+                    {/* {data.time} */}01:34 PM
                   </Typography>) :
                   (<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: '10px' }}>
                     <Typography
@@ -92,16 +94,16 @@ export default function Post({ data }) {
                 },
               }}
             >
-              {data.user_name}
+              {data?.userInfo?.firstname + ' ' + data?.userInfo?.lastname || ''}
             </Typography>
           }
           subheader={
             <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center' }}>
-              {data.clientMessageStatus === 'read' && <DoneAllIcon sx={{ color: '#1695de' }} />}
+              {true && <DoneAllIcon sx={{ color: '#1695de' }} />}
               {data.clientMessageStatus === 'sent' && <DoneIcon sx={{ color: 'gray' }} />}
               {data.clientMessageStatus === 'delivered' && <DoneAllIcon sx={{ color: 'gray' }} />}
               <span style={{ marginLeft: '6px', paddingBottom: '0px', color: '#d2d3d2' }}>
-                {data.message}
+                {/* {data.message} */}Hii ther, I'm using whatsapp
               </span>
             </Typography>
           }
