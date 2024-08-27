@@ -18,7 +18,7 @@ export default function RenderButton({ flag, info }) {
     return (
         <>
             {
-                flag === 'NO CONNECTION' &&
+                flag === 'NO CONNECTION' && getUserId() !== info?.friendId &&
                 <Box
                     style={{
                         display: 'flex',
@@ -32,7 +32,7 @@ export default function RenderButton({ flag, info }) {
                 </Box>
             }
             {
-                (flag === 'USER SIDE' && info?.accept === false) &&
+                (flag === 'USER SIDE' && info?.accept === false && getUserId() !== info?.friendId) &&
                 <Box
                     style={{
                         display: 'flex',
@@ -46,7 +46,7 @@ export default function RenderButton({ flag, info }) {
                 </Box>
             }
             {
-                (flag === 'FRIEND SIDE' && info?.accept === false) &&
+                (flag === 'FRIEND SIDE' && info?.accept === false && getUserId() !== info?.friendId) &&
                 <Box
                     style={{
                         display: 'flex',

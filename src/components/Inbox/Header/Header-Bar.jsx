@@ -16,7 +16,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch, useSelector } from 'react-redux';
 import WestIcon from '@mui/icons-material/West';
 import { userUnselected } from '../../../store/selectedUser/selectedUser.slice';
-import {handleSnackbarClick} from '../../../store/ui/snakebar/snakebar.slice'
+import { handleSnackbarClick } from '../../../store/ui/snakebar/snakebar.slice'
+import { getUserId } from '../../../utils/auth';
 
 export default function PrimarySearchAppBar() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -125,7 +126,7 @@ export default function PrimarySearchAppBar() {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" sx={{ bgcolor: '#2c343d' }}>
                 <Toolbar>
-                    <Box onClick={() => dispatch(userUnselected())} sx={{ mr: 2, cursor:'pointer', display : {xs:'block', sm:'none'} }}>
+                    <Box onClick={() => dispatch(userUnselected())} sx={{ mr: 2, cursor: 'pointer', display: { xs: 'block', sm: 'none' } }}>
                         <WestIcon />
                     </Box>
                     <Tooltip title="Profile Details">
@@ -138,33 +139,39 @@ export default function PrimarySearchAppBar() {
                     </Typography>
 
                     <Box sx={{ flexGrow: 1 }} />
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => dispatch(handleSnackbarClick())}>
-                            <Badge color="error">
-                                <VideocamIcon sx={{ color: '#7e8686' }} />
-                            </Badge>
-                        </IconButton>
-                        <IconButton
-                            size="large"
-                            aria-label="show 17 new notifications"
-                            color="inherit"
-                            onClick={() => dispatch(handleSnackbarClick())}
-                        >
-                            <Badge>
-                                <SearchIcon sx={{ color: '#CFCFCF' }} />
-                            </Badge>
-                        </IconButton>
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                        >
-                            <MoreVertIcon sx={{ color: '#CFCFCF', marginRight: '32px' }} />
-                        </IconButton>
-                    </Box>
+                    {
+                        getUserId() === info?.friendId ? null :
+                            <>
+                                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                                    <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => dispatch(handleSnackbarClick())}>
+                                        <Badge color="error">
+                                            <VideocamIcon sx={{ color: '#7e8686' }} />
+                                        </Badge>
+                                    </IconButton>
+                                    <IconButton
+                                        size="large"
+                                        aria-label="show 17 new notifications"
+                                        color="inherit"
+                                        onClick={() => dispatch(handleSnackbarClick())}
+                                    >
+                                        <Badge>
+                                            <SearchIcon sx={{ color: '#CFCFCF' }} />
+                                        </Badge>
+                                    </IconButton>
+                                    <IconButton
+                                        size="large"
+                                        edge="end"
+                                        aria-label="account of current user"
+                                        aria-controls={menuId}
+                                        aria-haspopup="true"
+                                        onClick={handleProfileMenuOpen}
+                                    >
+                                        <MoreVertIcon sx={{ color: '#CFCFCF', marginRight: '32px' }} />
+                                    </IconButton>
+                                </Box>
+                            </>
+                    }
+
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
@@ -181,6 +188,6 @@ export default function PrimarySearchAppBar() {
             </AppBar>
             {renderMobileMenu}
             {renderMenu}
-        </Box>
+        </Box >
     );
 }

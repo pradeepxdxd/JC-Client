@@ -155,7 +155,7 @@ export const MessageRight = (props) => {
     const [messageDeliveredIcon, setMessageDeliveredIcon] = useState(null);
 
     useEffect(() => {
-        setMessageDeliveredIcon(<DoneIcon sx={{ fontSize: '15px', ml: 1 }} />);
+        setMessageDeliveredIcon(<DoneIcon sx={{ fontSize: '15px', ml: 1, color : 'blueviolet' }} />);
         const st = setTimeout(() => setMessageDeliveredIcon(<DoneAllIcon sx={{ fontSize: '15px', ml: 1 }} />), 500)
 
         return () => {

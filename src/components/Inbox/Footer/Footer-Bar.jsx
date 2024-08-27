@@ -7,14 +7,19 @@ import MicIcon from '@mui/icons-material/Mic';
 import AddIcon from '@mui/icons-material/Add';
 import SendIcon from '@mui/icons-material/Send';
 import TextBox from '../TextBox/TextBox';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setMessages } from '../../../store/message/message.slice'
 import { formatAMPM } from '../../../utils/formatTime';
 import { handleSnackbarClick } from '../../../store/ui/snakebar/snakebar.slice'
+import { APP_URL } from '../../../configs/dev';
+import io from 'socket.io-client';
+import { getUserId } from '../../../utils/auth';
 
-export default function FooterBar() {
+const socket = io(APP_URL);
+export default function FooterBar({ chats, setChats }) {
     const [inputText, setInputText] = useState('')
 
+    const { flag, info } = useSelector(state => state.friend)
     const dispatch = useDispatch()
 
     const handleChange = (e) => {
@@ -26,6 +31,24 @@ export default function FooterBar() {
             dispatch(setMessages({ message: inputText, time: formatAMPM() }))
             setInputText('')
         }
+        const sendMessage = (message) => {
+            socket.emit('private message', {
+                to: info?.friendId,
+                message: {
+                    message,
+                    timestamp: new Date().toLocaleTimeString(),
+                    from: getUserId(),
+                },
+            });
+            setChats((prevChats) => {
+                if (!Array.isArray(prevChats)) {
+                    // Ensure prevChats is an array
+                    return [{ flag: 'RIGHT', message, time: new Date().toLocaleTimeString() }];
+                }
+                return [...prevChats, { flag: 'RIGHT', message, time: new Date().toLocaleTimeString() }];
+            });
+        };
+        sendMessage(inputText)
     }
 
     const isTyping = useMemo(() => {
