@@ -1,17 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { BASE_URL } from '../../configs/dev'
+import { getUserId } from "../../utils/auth";
 
 export const searchUsers = createAsyncThunk('user/searchUsers', async (params, { rejectWithValue }) => {
     try {
-        if (params !== undefined) {
-            const response = await axios.get(`${BASE_URL}/auth/search?name=${params}`);
+        const response = await axios.get(`${BASE_URL}/auth/search?name=${params}&userId=${getUserId()}`);
 
-            if (response.data.statusCode === 200) {
-                return response.data;
-            } else {
-                return rejectWithValue({ message: response.data.error, statusCode: response.data.statusCode });
-            }
+        if (response.data.statusCode === 200) {
+            return response.data;
+        } else {
+            return rejectWithValue({ message: response.data.error, statusCode: response.data.statusCode });
         }
     }
     catch (err) {

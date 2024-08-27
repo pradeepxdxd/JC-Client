@@ -31,8 +31,7 @@ export default function AutocompleteWithCustomList() {
     }, [dispatch, textInput])
 
     useEffect(() => {
-        if (debounce)
-            dispatch(searchUsers(debounce))
+        if (debounce) dispatch(searchUsers(debounce))
     }, [debounce])
 
     const handleProfileClick = option => {
