@@ -1,46 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@material-ui/core";
 import { MessageLeft, MessageRight } from "../../../views/Chat/Message";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import RenderButton from "./RenderButton";
-import io from "socket.io-client";
-import { APP_URL } from "../../../configs/dev";
+import { socket } from "../../../configs/socket/socket";
+import { setChat } from "../../../store/chat/chat.slice";
+import { getUserId } from "../../../utils/auth";
 
-const socket = io(APP_URL);
+// const socket = io(APP_URL);
 
-export default function ChatBox({ chats, setChats }) {
-  const { messages } = useSelector(state => state.messageSlice)
-  const { flag, info } = useSelector(state => state.friend)
+export default function ChatBox() {
+  const uid = getUserId()
+  const { chats } = useSelector(state => state.chat)
+  const { flag, info } = useSelector(state => state.friend);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     // Register the userId with the server when the user connects
-    console.log({ infopradeep: info?.friendId })
     socket.emit('register', info?.friendId);
 
     // Listen for private messages
     socket.on('private message', (msg) => {
-      setChats((prevChats) => {
-        if (!Array.isArray(prevChats)) {
-          // Ensure prevChats is an array
-          return [{ flag: 'LEFT', message: msg?.message, time: msg?.timestamp }];
-        }
-        return [...prevChats, { flag: 'LEFT', message: msg?.message, time: msg?.timestamp }];
-      });
+      dispatch(setChat({ message: msg?.message, time: msg?.timestamp }))
     });
 
     return () => {
       socket.off('private message');
     };
-  }, [info?.friendId, setChats]);
-
-  console.log({ chats, type: typeof chats })
+  }, [dispatch, info?.friendId]);
 
   return (
     <Box>
       <RenderButton flag={flag} info={info} />
       <div style={{ marginTop: '12px' }}>
-        {chats && chats.length > 0 && chats.map((chat, index) => (
-          chat.flag === 'LEFT' ? (
+        {Array.isArray(chats) && chats.length > 0 && chats.map((chat, index) => (
+          (chat.senderId !== uid) ? (
             <MessageLeft
               key={index}
               message={chat.message}

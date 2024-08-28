@@ -9,14 +9,13 @@ import SendIcon from '@mui/icons-material/Send';
 import TextBox from '../TextBox/TextBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMessages } from '../../../store/message/message.slice'
-import { formatAMPM } from '../../../utils/formatTime';
+import { formatAMPM, getLocalTime } from '../../../utils/formatTime';
 import { handleSnackbarClick } from '../../../store/ui/snakebar/snakebar.slice'
-import { APP_URL } from '../../../configs/dev';
-import io from 'socket.io-client';
+import { socket } from '../../../configs/socket/socket';
 import { getUserId } from '../../../utils/auth';
+import { setChat, sendMessage } from '../../../store/chat/chat.slice'
 
-const socket = io(APP_URL);
-export default function FooterBar({ chats, setChats }) {
+export default function FooterBar() {
     const [inputText, setInputText] = useState('')
 
     const { flag, info } = useSelector(state => state.friend)
@@ -27,28 +26,30 @@ export default function FooterBar({ chats, setChats }) {
     }
 
     const handleSendClick = () => {
+        const uid = getUserId()
+        const time = getLocalTime()
         if (inputText !== '') {
             dispatch(setMessages({ message: inputText, time: formatAMPM() }))
             setInputText('')
         }
-        const sendMessage = (message) => {
+        const sendMessageToSocket = (message) => {
             socket.emit('private message', {
                 to: info?.friendId,
                 message: {
                     message,
-                    timestamp: new Date().toLocaleTimeString(),
-                    from: getUserId(),
+                    timestamp: time,
+                    from: uid,
                 },
             });
-            setChats((prevChats) => {
-                if (!Array.isArray(prevChats)) {
-                    // Ensure prevChats is an array
-                    return [{ flag: 'RIGHT', message, time: new Date().toLocaleTimeString() }];
-                }
-                return [...prevChats, { flag: 'RIGHT', message, time: new Date().toLocaleTimeString() }];
-            });
+            dispatch(setChat({ senderId: uid, message, time }))
+            dispatch(sendMessage({
+                senderId: uid,
+                receiverId: info?.friendId,
+                time,
+                message
+            }))
         };
-        sendMessage(inputText)
+        sendMessageToSocket(inputText)
     }
 
     const isTyping = useMemo(() => {

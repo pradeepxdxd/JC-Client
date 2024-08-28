@@ -9,3 +9,5 @@ export const formatAMPM = () => {
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
 }
+
+export const getLocalTime = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })

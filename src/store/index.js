@@ -7,6 +7,7 @@ import authSlice from "./auth/auth.slice";
 import backdropSlice from "./ui/backdrop/backdrop.slice";
 import userSlice from "./auth/user.slice";
 import friendSlice from "./friend/friend.slice";
+import chatSlice from "./chat/chat.slice";
 
 const store = configureStore({
     reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
         backdrop: backdropSlice,
         user: userSlice,
         friend: friendSlice,
+        chat: chatSlice
     }
 })
 

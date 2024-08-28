@@ -1,7 +1,11 @@
+import { jwtDecode } from "jwt-decode";
+
 export const isLoggedIn = () => {
     return localStorage.getItem('token')
 }
 
 export const getUserId = () => {
-    return localStorage.getItem('uid');
+    const token = localStorage.getItem('token')
+    const { userId } = jwtDecode(token)
+    return localStorage.getItem('uid') || userId;
 }

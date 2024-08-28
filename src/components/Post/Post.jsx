@@ -10,15 +10,17 @@ import { getUserInfo } from '../../store/friend/friend.slice'
 import { setProfile } from '../../store/profile/profile.slice'
 import { PROFILE_IMAGE } from '../../constants/avatar';
 import { getUserId } from '../../utils/auth';
+import { getMessages, clearChats } from '../../store/chat/chat.slice'
 
 export default function Post({ data }) {
   const dispatch = useDispatch()
-
   const handleClick = () => {
     dispatch(setProfile({ name: data?.firstname + ' ' + data?.lastname, image: data?.profileImage }))
     dispatch(getUserInfo({ userId: getUserId(), friendId: data?._id }))
     dispatch(clearMessages())
+    dispatch(clearChats())
     dispatch(userSelected())
+    dispatch(getMessages({ senderId: getUserId(), receiverId: data?._id }));
   }
 
   return (
