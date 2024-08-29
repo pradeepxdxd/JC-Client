@@ -33,8 +33,11 @@ export default function FooterBar() {
             setInputText('')
         }
         const sendMessageToSocket = (message) => {
+            // const roomId = [uid, info?.friendId].sort().join('_');
+
             socket.emit('private message', {
-                to: info?.friendId,
+                userId1: uid,
+                userId2: info?.friendId,
                 message: {
                     message,
                     timestamp: time,

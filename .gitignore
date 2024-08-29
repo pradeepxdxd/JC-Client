@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 /bugs.txt
+/copy
 .pnp.js
 
 # testing

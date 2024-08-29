@@ -19,15 +19,19 @@ export default function ChatBox() {
     // Register the userId with the server when the user connects
     socket.emit('register', info?.friendId);
 
+    // Create a unique room for the conversation between the two users
+    socket.emit('join room', { userId1: uid, userId2: info?.friendId });
+
     // Listen for private messages
     socket.on('private message', (msg) => {
-      dispatch(setChat({ message: msg?.message, time: msg?.timestamp }))
+      if (info?.friendId === msg.userId1 || info.friendId === msg.userId2)
+        dispatch(setChat({ message: msg?.message, time: msg?.timestamp }))
     });
 
     return () => {
       socket.off('private message');
     };
-  }, [dispatch, info?.friendId]);
+  }, [dispatch, info?.friendId, uid]);
 
   return (
     <Box>

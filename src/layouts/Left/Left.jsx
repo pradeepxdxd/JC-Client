@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { Badge, Grid, Menu, MenuItem, Typography } from '@mui/material'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import AddCommentIcon from '@mui/icons-material/AddComment';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AutoComplete from '../../components/Search/CustomAutoComplete';
-import Tabs from '../../components/Tabs/Tabs';
 import PostCard from '../../components/Post/PostCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleSnackbarClick } from '../../store/ui/snakebar/snakebar.slice'
 import { logout } from '../../store/auth/auth.slice'
 import { handleBackDropClose, handleBackDropOpen } from '../../store/ui/backdrop/backdrop.slice';
 import BackDrop from '../../animations/BackDrop';
-import { getFriendList } from '../../store/friend/friend.slice';
-import { getUserId } from '../../utils/auth';
+import { getUserName } from '../../utils/auth';
+
+// import AddCommentIcon from '@mui/icons-material/AddComment';
+// import Tabs from '../../components/Tabs/Tabs';
 
 export default function Left() {
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
 
     const { backdrop } = useSelector(state => state.backdrop)
-    
+    const { name } = useSelector(state => state.profileSlice)
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -85,7 +86,7 @@ export default function Left() {
             <Grid container m={2}>
                 <Grid item xs={8}>
                     <Typography variant='h5' fontWeight={'bold'} color={'white'}>
-                        Chats
+                        {getUserName()}
                     </Typography>
                 </Grid>
                 <Grid onClick={handleWorking} item xs={2} pl={6} sx={{

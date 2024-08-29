@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../configs/dev";
 import axios from "axios";
-import {jwtDecode} from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 
 export const login = createAsyncThunk('auth/login', async (params, { rejectWithValue }) => {
     try {
@@ -64,9 +64,10 @@ const authSlice = createSlice({
         })
         builder.addCase(login.fulfilled, (state, action) => {
             if (!!action?.payload?.token) {
-                const {userId} = jwtDecode(action.payload.token)
+                const { userId, name } = jwtDecode(action.payload.token)
                 localStorage.setItem('token', action.payload.token)
                 localStorage.setItem('uid', userId);
+                localStorage.setItem('name', name);
                 state.token = action.payload.token
                 state.statusCode = action.payload.statusCode
                 state.toast = action.payload.message

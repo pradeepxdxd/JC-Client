@@ -44,6 +44,28 @@ export const getMessages = createAsyncThunk('chat/getMessages', async (params, {
     }
 })
 
+export const updateReadStataus = createAsyncThunk('chat/updateReadStataus', async (params, { rejectWithValue }) => {
+    try {
+        if (!!params) {
+            const response = await axios.patch(`${BASE_URL}/chat/update/read-status/${params}`);
+
+            if (response.status === 200) {
+                return params._id;
+            }
+            else {
+                return rejectWithValue({ message: response.data.message, statusCode: response.status })
+            }
+        }
+    }
+    catch (err) {
+        if (err.response && err.response.data) {
+            return rejectWithValue({ message: err.response.data.message, statusCode: err.response.status });
+        } else {
+            return rejectWithValue({ message: 'Something went wrong, please try again later', statusCode: 500 });
+        }
+    }
+})
+
 const chatSlice = createSlice({
     name: 'chat',
     initialState: {
@@ -79,6 +101,10 @@ const chatSlice = createSlice({
             state.loading = false;
             state.chats = action.error.message;
         })
+
+        // builder.addCase(updateReadStataus.fulfilled, ((state, action) => {
+
+        // }))
     }
 })
 

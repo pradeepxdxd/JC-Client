@@ -3,6 +3,7 @@ import { Avatar, Box, Card, CardHeader, Grid, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import DoneIcon from '@mui/icons-material/Done';
+import Brightness1Icon from '@mui/icons-material/Brightness1';
 import { useDispatch } from 'react-redux';
 import { clearMessages } from '../../store/message/message.slice';
 import { userSelected } from '../../store/selectedUser/selectedUser.slice'
@@ -10,9 +11,11 @@ import { getUserInfo } from '../../store/friend/friend.slice'
 import { setProfile } from '../../store/profile/profile.slice'
 import { PROFILE_IMAGE } from '../../constants/avatar';
 import { getUserId } from '../../utils/auth';
-import { getMessages, clearChats } from '../../store/chat/chat.slice'
+import { getMessages, clearChats, updateReadStataus } from '../../store/chat/chat.slice'
+import { socket } from '../../configs/socket/socket';
 
 export default function Post({ data }) {
+  const uid = getUserId()
   const dispatch = useDispatch()
   const handleClick = () => {
     dispatch(setProfile({ name: data?.firstname + ' ' + data?.lastname, image: data?.profileImage }))
@@ -20,7 +23,10 @@ export default function Post({ data }) {
     dispatch(clearMessages())
     dispatch(clearChats())
     dispatch(userSelected())
-    dispatch(getMessages({ senderId: getUserId(), receiverId: data?._id }));
+    dispatch(getMessages({ senderId: getUserId(), receiverId: data?._id, chatId: data?.chatId }));
+    // if (!!data?.chatId) {
+    //   dispatch(updateReadStataus(data?.chatId))
+    // }
   }
 
   return (
@@ -49,36 +55,37 @@ export default function Post({ data }) {
               alt="error"
             />
           }
-
           action={
             <>
               {
-                !data.unread ?
-                  (<Typography
-                    variant="body2"
-                    sx={{ color: '#d2d3d2', marginLeft: 'auto', paddingRight: 2, marginTop: '10px' }}
-                  >
-                    {/* {data.time} */}01:34 PM
-                  </Typography>) :
-                  (<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: '10px' }}>
+                uid !== data?.senderId && data?.receiverStatus === "INCOMING" ?
+                  (
+                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: '10px' }}>
+                      <Typography
+                        variant="body2"
+                        sx={{ color: !data.unread ? '#d2d3d2' : '#5ccda6', paddingRight: 2 }}
+                      >
+                        {data.lastTime}
+                      </Typography>
+                      <Box
+                        sx={{
+                          padding: '2px 8px',
+                          marginTop: '4px', // Adjust spacing between time and badge
+                        }}
+                      >
+                        <Brightness1Icon fontSize='0px' color='success' />
+                      </Box>
+                    </Box>
+                  ) :
+                  (
                     <Typography
                       variant="body2"
-                      sx={{ color: !data.unread ? '#d2d3d2' : '#5ccda6', paddingRight: 2 }}
+                      sx={{ color: '#d2d3d2', marginLeft: 'auto', paddingRight: 2, marginTop: '10px' }}
                     >
-                      {data.time}
+                      {data.lastTime}
                     </Typography>
-                    <Box
-                      sx={{
-                        bgcolor: '#5ccda6',
-                        color: 'gray',
-                        borderRadius: '12px',
-                        padding: '2px 8px',
-                        marginTop: '4px', // Adjust spacing between time and badge
-                      }}
-                    >
-                      <Typography variant='caption' fontWeight={'bold'}>{data.lines}</Typography>
-                    </Box>
-                  </Box>)
+                  )
+
               }
             </>
           }
@@ -101,11 +108,11 @@ export default function Post({ data }) {
           }
           subheader={
             <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center' }}>
-              {true && <DoneAllIcon sx={{ color: '#1695de' }} />}
-              {data.clientMessageStatus === 'sent' && <DoneIcon sx={{ color: 'gray' }} />}
-              {data.clientMessageStatus === 'delivered' && <DoneAllIcon sx={{ color: 'gray' }} />}
+              {(data.senderId === uid && data.receiverStatus === 'READ') && <DoneAllIcon sx={{ color: '#1695de' }} />}
+              {/* {data.clientMessageStatus === 'sent' && <DoneIcon sx={{ color: 'gray' }} />} */}
+              {(data.senderId === uid && data.receiverStatus === 'INCOMING') && <DoneAllIcon sx={{ color: 'gray' }} />}
               <span style={{ marginLeft: '6px', paddingBottom: '0px', color: '#d2d3d2' }}>
-                {/* {data.message} */}Hii ther, I'm using whatsapp
+                {data.lastMessage}
               </span>
             </Typography>
           }
