@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Box } from "@material-ui/core";
 import { MessageLeft, MessageRight } from "../../../views/Chat/Message";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +6,7 @@ import RenderButton from "./RenderButton";
 import { socket } from "../../../configs/socket/socket";
 import { setChat } from "../../../store/chat/chat.slice";
 import { getUserId } from "../../../utils/auth";
+import './index.css'
 
 // const socket = io(APP_URL);
 
@@ -36,7 +37,14 @@ export default function ChatBox() {
   return (
     <Box>
       <RenderButton flag={flag} info={info} />
-      <div style={{ marginTop: '12px' }}>
+      <Box
+      className="chat-box-style"
+        // style={{
+        //   marginTop: '12px',
+        //   maxHeight: '400px',  // Set the maximum height of the container
+        //   overflowY: 'auto',   // Enable vertical scrolling
+        // }}
+      >
         {Array.isArray(chats) && chats.length > 0 && chats.map((chat, index) => (
           (chat.senderId !== uid) ? (
             <MessageLeft
@@ -55,30 +63,7 @@ export default function ChatBox() {
             />
           )
         ))}
-      </div>
+      </Box>
     </Box>
   );
-
 }
-
-// {/* <MessageLeft
-//   message="Hii Pradeep"
-//   timestamp="09:34 pm"
-//   photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-//   displayName=""
-//   avatarDisp={true}
-// />
-// <MessageLeft
-//   message="Kya haal chal rha he"
-//   timestamp="09:34 pm"
-//   photoURL=""
-//   displayName=""
-//   avatarDisp={false}
-// />
-// <MessageRight
-//   message={''}
-//   timestamp={''}
-//   photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-//   displayName="まさりぶ"
-//   avatarDisp={true}
-// /> */}
