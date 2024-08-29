@@ -96,6 +96,32 @@ const friendSlice = createSlice({
         clearState: state => {
             state.flag = ''
             state.info = null
+        },
+        updateFriendList: (state, action) => {
+            const { id, message, time } = action.payload;
+            state.friendList = state.friendList.map(list => {
+                if (list?._id === id) {
+                    return {
+                        ...list,
+                        lastMessage: message,
+                        lastTime: time
+                    }
+                }
+                return list;
+            })
+        },
+        updateSeen: (state, action) => {
+            state.friendList = state.friendList.map(list => {
+                console.log(list?._id, '===', action.payload)
+                if (list?._id === action.payload) {
+                    console.log()
+                    return {
+                        ...list,
+                        receiverStatus: 'READ'
+                    }
+                }
+                return list;
+            })
         }
     },
     extraReducers: builder => {
@@ -148,7 +174,7 @@ const friendSlice = createSlice({
             state.loading = false
             state.message = action.payload.message
             state.info = { ...state.info, accept: action.payload.accept }
-            state.friendList = [...state.friendList, action.payload.user[0] ]
+            state.friendList = [...state.friendList, action.payload.user[0]]
         })
         builder.addCase(acceptFriendRequest.rejected, (state, action) => {
             state.loading = false
@@ -157,5 +183,5 @@ const friendSlice = createSlice({
     }
 })
 
-export const { clearState } = friendSlice.actions;
+export const { clearState, updateFriendList, updateSeen } = friendSlice.actions;
 export default friendSlice.reducer;

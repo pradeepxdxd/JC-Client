@@ -14,6 +14,7 @@ import { handleSnackbarClick } from '../../../store/ui/snakebar/snakebar.slice'
 import { socket } from '../../../configs/socket/socket';
 import { getUserId } from '../../../utils/auth';
 import { setChat, sendMessage } from '../../../store/chat/chat.slice'
+import { updateFriendList } from '../../../store/friend/friend.slice';
 
 export default function FooterBar() {
     const [inputText, setInputText] = useState('')
@@ -33,8 +34,6 @@ export default function FooterBar() {
             setInputText('')
         }
         const sendMessageToSocket = (message) => {
-            // const roomId = [uid, info?.friendId].sort().join('_');
-
             socket.emit('private message', {
                 userId1: uid,
                 userId2: info?.friendId,
@@ -51,6 +50,7 @@ export default function FooterBar() {
                 time,
                 message
             }))
+            dispatch(updateFriendList({ id: info?.friendId, message, time }))
         };
         sendMessageToSocket(inputText)
     }

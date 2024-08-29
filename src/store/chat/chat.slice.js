@@ -101,10 +101,6 @@ const chatSlice = createSlice({
             state.loading = false;
             state.chats = action.error.message;
         })
-
-        // builder.addCase(updateReadStataus.fulfilled, ((state, action) => {
-
-        // }))
     }
 })
 

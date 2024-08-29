@@ -2,17 +2,16 @@ import React from 'react';
 import { Avatar, Box, Card, CardHeader, Grid, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
-import DoneIcon from '@mui/icons-material/Done';
+// import DoneIcon from '@mui/icons-material/Done';
 import Brightness1Icon from '@mui/icons-material/Brightness1';
 import { useDispatch } from 'react-redux';
 import { clearMessages } from '../../store/message/message.slice';
 import { userSelected } from '../../store/selectedUser/selectedUser.slice'
-import { getUserInfo } from '../../store/friend/friend.slice'
+import { getUserInfo, updateFriendList, updateSeen } from '../../store/friend/friend.slice'
 import { setProfile } from '../../store/profile/profile.slice'
 import { PROFILE_IMAGE } from '../../constants/avatar';
 import { getUserId } from '../../utils/auth';
 import { getMessages, clearChats, updateReadStataus } from '../../store/chat/chat.slice'
-import { socket } from '../../configs/socket/socket';
 
 export default function Post({ data }) {
   const uid = getUserId()
@@ -24,9 +23,10 @@ export default function Post({ data }) {
     dispatch(clearChats())
     dispatch(userSelected())
     dispatch(getMessages({ senderId: getUserId(), receiverId: data?._id, chatId: data?.chatId }));
-    // if (!!data?.chatId) {
-    //   dispatch(updateReadStataus(data?.chatId))
-    // }
+    if (!!data?.chatId) {
+      dispatch(updateReadStataus(data?.chatId))
+    }
+    dispatch(updateSeen(data?._id))
   }
 
   return (

@@ -7,6 +7,7 @@ import { socket } from "../../../configs/socket/socket";
 import { setChat } from "../../../store/chat/chat.slice";
 import { getUserId } from "../../../utils/auth";
 import './index.css'
+import { updateFriendList } from "../../../store/friend/friend.slice";
 
 // const socket = io(APP_URL);
 
@@ -27,6 +28,7 @@ export default function ChatBox() {
     socket.on('private message', (msg) => {
       if (info?.friendId === msg.userId1 || info.friendId === msg.userId2)
         dispatch(setChat({ message: msg?.message, time: msg?.timestamp }))
+      dispatch(updateFriendList({ message: msg?.message, time: msg?.timestamp, id: info?.friendId }))
     });
 
     return () => {
@@ -38,12 +40,7 @@ export default function ChatBox() {
     <Box>
       <RenderButton flag={flag} info={info} />
       <Box
-      className="chat-box-style"
-        // style={{
-        //   marginTop: '12px',
-        //   maxHeight: '400px',  // Set the maximum height of the container
-        //   overflowY: 'auto',   // Enable vertical scrolling
-        // }}
+        className="chat-box-style"
       >
         {Array.isArray(chats) && chats.length > 0 && chats.map((chat, index) => (
           (chat.senderId !== uid) ? (
