@@ -63,7 +63,7 @@
 
 @media (max-width: 400px) {
     .chat-box-style {
-        max-height: 690px;
+        max-height: 660px;
         padding: 2px;
     }
 }
