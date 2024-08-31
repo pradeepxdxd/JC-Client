@@ -75,9 +75,9 @@ export default function FooterBar() {
                         <Grid item xs={0} mt={2} onClick={() => dispatch(handleSnackbarClick())}>
                             <SentimentVerySatisfiedIcon sx={{ color: '#7e8686', cursor: 'pointer' }} />
                         </Grid>
-                        <Grid item xs={0} ml={3} mt={2} onClick={() => dispatch(handleSnackbarClick())}>
+                        {/* <Grid item xs={0} ml={3} mt={2} onClick={() => dispatch(handleSnackbarClick())}>
                             <AddIcon sx={{ color: '#7e8686', cursor: 'pointer' }} />
-                        </Grid>
+                        </Grid> */}
                         <Grid item xs={6.5}>
                             <TextBox inputText={inputText} handleSendClick={handleSendClick} handleChange={handleChange} />
                         </Grid>

@@ -1,11 +1,17 @@
 import React from 'react'
 import Main from './pages/Main'
-import ErrorBoundary from './error/ErrorBoundary'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import VideoCall from './pages/Videocall/VideoCall'
 
 export default function App() {
   return (
-    <ErrorBoundary>
-      <Main />
-    </ErrorBoundary>
+    <>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Main />} />
+          <Route path='/room/:roomId' element={<VideoCall />} />
+        </Routes>
+      </Router>
+    </>
   )
 }

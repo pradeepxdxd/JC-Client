@@ -9,17 +9,19 @@ import { handleSnackbarClick } from '../../store/ui/snakebar/snakebar.slice'
 import { logout } from '../../store/auth/auth.slice'
 import { handleBackDropClose, handleBackDropOpen } from '../../store/ui/backdrop/backdrop.slice';
 import BackDrop from '../../animations/BackDrop';
-import { getUserName } from '../../utils/auth';
+import { getUserId, getUserName } from '../../utils/auth';
+import BasicModal from '../../components/Modal/Modal';
+import { getUserById } from '../../store/auth/user.slice';
 
 // import AddCommentIcon from '@mui/icons-material/AddComment';
 // import Tabs from '../../components/Tabs/Tabs';
 
 export default function Left() {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [openProfile, setOpenProfile] = useState(false)
     const isMenuOpen = Boolean(anchorEl);
 
     const { backdrop } = useSelector(state => state.backdrop)
-    const { name } = useSelector(state => state.profileSlice)
 
     const dispatch = useDispatch()
 
@@ -38,6 +40,12 @@ export default function Left() {
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
+    const handleProfile = () => {
+        setOpenProfile(true)
+        handleMenuClose()
+        dispatch(getUserById(getUserId()))
+    }
 
     const handleMenuClose = () => {
         setAnchorEl(null);
@@ -75,7 +83,7 @@ export default function Left() {
                 }
             }}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={handleProfile}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>Setting</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
@@ -86,7 +94,7 @@ export default function Left() {
             <Grid container m={2}>
                 <Grid item xs={8}>
                     <Typography variant='h5' fontWeight={'bold'} color={'white'}>
-                        {getUserName()}
+                        Chats
                     </Typography>
                 </Grid>
                 <Grid onClick={handleWorking} item xs={2} pl={6} sx={{
@@ -113,6 +121,7 @@ export default function Left() {
             </Grid>
             {renderMenu}
             <BackDrop />
+            <BasicModal openProfile={openProfile} setOpenProfile={setOpenProfile}/>
         </div>
     )
 }

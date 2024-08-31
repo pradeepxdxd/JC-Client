@@ -18,15 +18,24 @@ import WestIcon from '@mui/icons-material/West';
 import { userUnselected } from '../../../store/selectedUser/selectedUser.slice';
 import { handleSnackbarClick } from '../../../store/ui/snakebar/snakebar.slice'
 import { getUserId } from '../../../utils/auth';
+import { socket } from '../../../configs/socket/socket';
+import { useNavigate } from 'react-router-dom';
+import { getUserById } from '../../../store/auth/user.slice'
 
 export default function PrimarySearchAppBar() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
     const { name, image } = useSelector(state => state.profileSlice)
-    const { flag, info } = useSelector(state => state.friend)
+    const { info } = useSelector(state => state.friend)
+    const { user } = useSelector(state => state.user)
 
+    const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    React.useEffect(() => {
+        dispatch(getUserById(getUserId()))
+    }, [dispatch])
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -47,6 +56,13 @@ export default function PrimarySearchAppBar() {
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
+
+    const handleVideoCall = () => {
+        const roomId = [getUserId(), info?.friendId].sort().join('_')
+        const call_url = `${process.env.REACT_APP_CLIENT_URL}/room/${roomId}`;
+        socket.emit('join-video-call', { user1: getUserId(), user2: info?.friendId, call_url, profileImage: user?.profileImage, name: `${user?.firstname} ${user?.lastname}` })
+        navigate(`/room/${roomId}`)
+    }
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -88,7 +104,7 @@ export default function PrimarySearchAppBar() {
             onClose={handleMobileMenuClose}
         >
             <MenuItem>
-                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={handleVideoCall}>
                     <Badge badgeContent={0} color="error">
                         <VideocamIcon />
                     </Badge>
@@ -143,7 +159,7 @@ export default function PrimarySearchAppBar() {
                         getUserId() === info?.friendId ? null :
                             <>
                                 <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                                    <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => dispatch(handleSnackbarClick())}>
+                                    <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={handleVideoCall}>
                                         <Badge color="error">
                                             <VideocamIcon sx={{ color: '#7e8686' }} />
                                         </Badge>
@@ -171,7 +187,6 @@ export default function PrimarySearchAppBar() {
                                 </Box>
                             </>
                     }
-
                     {
                         getUserId() !== info?.friendId &&
                         <>
@@ -201,3 +216,4 @@ export default function PrimarySearchAppBar() {
         </Box >
     );
 }
+

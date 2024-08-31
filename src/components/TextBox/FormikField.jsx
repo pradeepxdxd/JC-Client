@@ -1,7 +1,7 @@
 import { Field } from 'formik'
 import React from 'react'
 
-export default function FormikField({ name, component, label, value, handleBlur, disabled }) {
+export default function FormikField({ name, component, label, value, handleBlur, disabled, customStyle }) {
     return (
         <>
             <Field
@@ -21,7 +21,7 @@ export default function FormikField({ name, component, label, value, handleBlur,
                 }}
                 autoComplete='off'
                 sx={{
-                    width: '400px',
+                    width: !!customStyle?.width ? customStyle?.width : '400px',
                     marginBottom: '30px',
                     borderRadius: '4px',
                     backgroundColor: '#2c343d',  // Example sx prop usage

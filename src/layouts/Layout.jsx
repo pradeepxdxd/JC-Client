@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Left from './Left/Left';
 import Right from './Right/Right';
 import { Grid } from '@mui/material';
 import WhatsAppBgChatImage from '../assets/chat/whatsapp-bg-image.jpg'
 import AutoSnakebar from '../components/Snakebar/AutoSnakebar';
 import { useSelector } from 'react-redux';
+import { socket } from '../configs/socket/socket';
+import { getUserId } from '../utils/auth';
+import CallModal from '../components/Modal/CallModal'
+import { useState } from 'react';
 
 export default function Layout() {
+   const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const [callInfo, setCallInfo] = useState(null)
+
    const { selected } = useSelector(state => state.selectedUserSlice)
+
+   useEffect(() => {
+      socket.on('incoming-call', (data) => {
+         if (data.user2 === getUserId()) {
+            handleOpen()
+            setCallInfo(data)
+         }
+      })
+   }, [])
 
    return (
       <>
@@ -63,8 +81,8 @@ export default function Layout() {
             >
                <Right />
             </Grid>
-
             <AutoSnakebar />
+            <CallModal open={open} handleClose={handleClose} handleOpen={handleOpen} callInfo={callInfo} />
          </Grid>
       </>
    );
