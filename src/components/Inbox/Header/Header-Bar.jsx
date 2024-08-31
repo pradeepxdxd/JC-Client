@@ -103,8 +103,8 @@ export default function PrimarySearchAppBar() {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem>
-                <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={handleVideoCall}>
+            <MenuItem onClick={handleVideoCall}>
+                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                     <Badge badgeContent={0} color="error">
                         <VideocamIcon />
                     </Badge>
