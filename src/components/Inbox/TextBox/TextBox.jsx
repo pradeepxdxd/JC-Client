@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material'
 import React from 'react'
 
-export default function TextBox({ inputText, handleChange, handleSendClick }) {
+export default function TextBox({ inputText, handleChange, handleSendClick, disable }) {
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
@@ -16,7 +16,7 @@ export default function TextBox({ inputText, handleChange, handleSendClick }) {
                 id="outlined-multiline-flexible"
                 multiline
                 maxRows={4}
-                // fullWidth
+                disabled={disable}
                 value={inputText}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}

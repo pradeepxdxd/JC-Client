@@ -1,5 +1,5 @@
 import { Box, Grid } from '@mui/material';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
@@ -9,13 +9,15 @@ import TextBox from '../TextBox/TextBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMessages } from '../../../store/message/message.slice'
 import { formatAMPM, getLocalTime } from '../../../utils/formatTime';
-import { handleSnackbarClick } from '../../../store/ui/snakebar/snakebar.slice'
 import { socket } from '../../../configs/socket/socket';
 import { getUserId } from '../../../utils/auth';
 import { setChat, sendMessage } from '../../../store/chat/chat.slice'
 import { updateFriendList } from '../../../store/friend/friend.slice';
 import emojiData from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
+import StopIcon from '@mui/icons-material/StopCircle';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { toast } from 'react-toastify';
 
 export default function FooterBar() {
     const [inputText, setInputText] = useState('');
@@ -23,6 +25,32 @@ export default function FooterBar() {
 
     const { info } = useSelector(state => state.friend);
     const dispatch = useDispatch();
+
+    const {
+        transcript,
+        listening,
+        resetTranscript,
+        browserSupportsSpeechRecognition,
+        startListening,
+        stopListening
+    } = useSpeechRecognition();
+
+    if (!browserSupportsSpeechRecognition) {
+        toast.error("Browser doesn't support speech recognition")
+    }
+
+    useEffect(() => {
+        console.log({transcript})
+        if (transcript) {
+            setInputText(prev => prev + transcript);
+        }
+    }, [transcript]);
+
+    useEffect(() => {
+        if (!listening) {
+            resetTranscript();
+        }
+    }, [listening, resetTranscript]);
 
     const handleChange = (e) => {
         setInputText(e.target.value);
@@ -86,7 +114,7 @@ export default function FooterBar() {
                                 />
                             </Grid>
                             <Grid item xs={10} sm={6} md={6} lg={6} xl={7}>
-                                <TextBox inputText={inputText} handleSendClick={handleSendClick} handleChange={handleChange} />
+                                <TextBox disable={listening} inputText={inputText} handleSendClick={handleSendClick} handleChange={handleChange} />
                             </Grid>
                             <Grid item xs="auto" display="flex" justifyContent="flex-end" sx={{
                                 ml: {
@@ -101,7 +129,8 @@ export default function FooterBar() {
                                     isTyping ? (
                                         <SendIcon sx={{ color: '#7e8686', cursor: 'pointer' }} onClick={handleSendClick} />
                                     ) : (
-                                        <MicIcon sx={{ color: '#7e8686', cursor: 'pointer' }} onClick={() => dispatch(handleSnackbarClick())} />
+                                        listening ? <StopIcon sx={{ color: '#7e8686', cursor: 'pointer' }} onClick={SpeechRecognition.stopListening} /> :
+                                            <MicIcon sx={{ color: '#7e8686', cursor: 'pointer' }} onClick={SpeechRecognition.startListening} />
                                     )}
                             </Grid>
                         </Grid>
