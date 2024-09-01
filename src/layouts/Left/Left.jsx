@@ -9,17 +9,20 @@ import { handleSnackbarClick } from '../../store/ui/snakebar/snakebar.slice'
 import { logout } from '../../store/auth/auth.slice'
 import { handleBackDropClose, handleBackDropOpen } from '../../store/ui/backdrop/backdrop.slice';
 import BackDrop from '../../animations/BackDrop';
-import { getUserId, getUserName } from '../../utils/auth';
+import { getUserId } from '../../utils/auth';
 import BasicModal from '../../components/Modal/Modal';
 import { getUserById } from '../../store/auth/user.slice';
+import Notification from '../../components/Notification/Notification';
 
 // import AddCommentIcon from '@mui/icons-material/AddComment';
 // import Tabs from '../../components/Tabs/Tabs';
 
 export default function Left() {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorElNotification, setAnchorElNotification] = useState(null);
     const [openProfile, setOpenProfile] = useState(false)
     const isMenuOpen = Boolean(anchorEl);
+    const isNotificationMenuOpen = Boolean(anchorElNotification);
 
     const { backdrop } = useSelector(state => state.backdrop)
 
@@ -41,6 +44,10 @@ export default function Left() {
         setAnchorEl(event.currentTarget);
     };
 
+    const handleNotificationMenuOpen = (event) => {
+        setAnchorElNotification(event.currentTarget);
+    };
+
     const handleProfile = () => {
         setOpenProfile(true)
         handleMenuClose()
@@ -51,9 +58,9 @@ export default function Left() {
         setAnchorEl(null);
     };
 
-    const handleWorking = () => {
-        dispatch(handleSnackbarClick())
-    }
+    const handleNotificationMenuClose = () => {
+        setAnchorElNotification(null);
+    };
 
     const handleLogout = () => {
         handleMenuClose()
@@ -97,7 +104,7 @@ export default function Left() {
                         Chats
                     </Typography>
                 </Grid>
-                <Grid onClick={handleWorking} item xs={2} pl={6} sx={{
+                <Grid onClick={handleNotificationMenuOpen} item xs={2} pl={6} sx={{
                     '@media (max-width:900px)': {
                         paddingLeft: '0px'
                     }
@@ -120,8 +127,9 @@ export default function Left() {
                 </Grid>
             </Grid>
             {renderMenu}
+            <Notification anchorElNotification={anchorElNotification} isNotificationMenuOpen={isNotificationMenuOpen} handleNotificationMenuClose={handleNotificationMenuClose} />
             <BackDrop />
-            <BasicModal openProfile={openProfile} setOpenProfile={setOpenProfile}/>
+            <BasicModal openProfile={openProfile} setOpenProfile={setOpenProfile} />
         </div>
     )
 }
