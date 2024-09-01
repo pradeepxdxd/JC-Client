@@ -33,7 +33,6 @@ export default function Notification({ anchorElNotification, isNotificationMenuO
                     '& .MuiList-root': {
                         backgroundColor: '#2c343d',
                         color: '#d2d3d2',
-                        borderRadius: '12px'
                     },
                     '& .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper': {
                         bgcolor: '#2c343d'
@@ -45,7 +44,10 @@ export default function Notification({ anchorElNotification, isNotificationMenuO
                     {
                         Array.isArray(notification) && notification?.length > 0 && notification?.map((notify, index) =>
                             <>
-                                <ListItem key={index} alignItems="flex-start" sx={{ cursor: 'pointer' }} onClick={() => dispatch(handleSnackbarClick())}>
+                                <ListItem key={index} alignItems="flex-start" sx={{ cursor: 'pointer' }} onClick={() => {
+                                    dispatch(handleSnackbarClick())
+                                    handleNotificationMenuClose()
+                                }}>
                                     <ListItemAvatar>
                                         <Avatar alt="Remy Sharp" src={notify?.profileImage} />
                                     </ListItemAvatar>
