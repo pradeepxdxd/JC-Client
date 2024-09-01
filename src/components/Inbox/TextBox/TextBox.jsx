@@ -16,11 +16,13 @@ export default function TextBox({ inputText, handleChange, handleSendClick }) {
                 id="outlined-multiline-flexible"
                 multiline
                 maxRows={4}
-                fullWidth
+                // fullWidth
                 value={inputText}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
                 sx={{
+                    // maxWidth:'100vw',
+                    width : '100%',
                     '& .MuiInputBase-input': {
                         color: '#d2d3d2',
                     },
@@ -44,10 +46,7 @@ export default function TextBox({ inputText, handleChange, handleSendClick }) {
                             borderWidth: 0,
                             borderColor: 'white',
                         },
-                    },
-                    // '@media (max-width:373px)' : {
-                    //     width : ''
-                    // }
+                    }
                 }}
             />
         </>

@@ -4,7 +4,6 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 import MicIcon from '@mui/icons-material/Mic';
-import AddIcon from '@mui/icons-material/Add';
 import SendIcon from '@mui/icons-material/Send';
 import TextBox from '../TextBox/TextBox';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,23 +14,26 @@ import { socket } from '../../../configs/socket/socket';
 import { getUserId } from '../../../utils/auth';
 import { setChat, sendMessage } from '../../../store/chat/chat.slice'
 import { updateFriendList } from '../../../store/friend/friend.slice';
+import emojiData from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 export default function FooterBar() {
-    const [inputText, setInputText] = useState('')
+    const [inputText, setInputText] = useState('');
+    const [showEmojies, setShowEmojies] = useState(false);
 
-    const { flag, info } = useSelector(state => state.friend)
-    const dispatch = useDispatch()
+    const { info } = useSelector(state => state.friend);
+    const dispatch = useDispatch();
 
     const handleChange = (e) => {
-        setInputText(e.target.value)
-    }
+        setInputText(e.target.value);
+    };
 
     const handleSendClick = () => {
-        const uid = getUserId()
-        const time = getLocalTime()
+        const uid = getUserId();
+        const time = getLocalTime();
         if (inputText !== '') {
-            dispatch(setMessages({ message: inputText, time: formatAMPM() }))
-            setInputText('')
+            dispatch(setMessages({ message: inputText, time: formatAMPM() }));
+            setInputText('');
         }
         const sendMessageToSocket = (message) => {
             socket.emit('private message', {
@@ -43,22 +45,19 @@ export default function FooterBar() {
                     from: uid,
                 },
             });
-            dispatch(setChat({ senderId: uid, message, time }))
+            dispatch(setChat({ senderId: uid, message, time }));
             dispatch(sendMessage({
                 senderId: uid,
                 receiverId: info?.friendId,
                 time,
                 message
-            }))
-            dispatch(updateFriendList({ id: info?.friendId, message, time }))
+            }));
+            dispatch(updateFriendList({ id: info?.friendId, message, time }));
         };
-        sendMessageToSocket(inputText)
-    }
+        sendMessageToSocket(inputText);
+    };
 
-    const isTyping = useMemo(() => {
-        if (inputText === '') return false;
-        else return true
-    }, [inputText])
+    const isTyping = useMemo(() => inputText !== '', [inputText]);
 
     return (
         <Box
@@ -69,28 +68,46 @@ export default function FooterBar() {
                 zIndex: 1100, // Ensure it's above other elements
             }}
         >
+            {showEmojies && (
+                <Picker
+                    data={emojiData}
+                    onEmojiSelect={(e) => setInputText(inputText + e.native)}
+                    style={{ position: 'absolute', bottom: '60px', left: '10px' }}
+                />
+            )}
             <AppBar position="static" sx={{ bgcolor: '#2c343d' }}>
                 <Toolbar>
                     <Grid container spacing={1}>
-                        <Grid item xs={0} mt={2} onClick={() => dispatch(handleSnackbarClick())}>
-                            <SentimentVerySatisfiedIcon sx={{ color: '#7e8686', cursor: 'pointer' }} />
-                        </Grid>
-                        {/* <Grid item xs={0} ml={3} mt={2} onClick={() => dispatch(handleSnackbarClick())}>
-                            <AddIcon sx={{ color: '#7e8686', cursor: 'pointer' }} />
-                        </Grid> */}
-                        <Grid item xs={6.5}>
-                            <TextBox inputText={inputText} handleSendClick={handleSendClick} handleChange={handleChange} />
-                        </Grid>
-                        <Grid item xs={0} mt={2} ml={5}>
-                            {
-                                isTyping ? <div onClick={handleSendClick}><SendIcon sx={{ color: '#7e8686', cursor: 'pointer' }} /></div> :
-                                    <div onClick={() => dispatch(handleSnackbarClick())}><MicIcon sx={{ color: '#7e8686', cursor: 'pointer' }} /></div>
-                            }
+                        <Grid container alignItems="center">
+                            <Grid item xs='auto'>
+                                <SentimentVerySatisfiedIcon
+                                    sx={{ color: '#7e8686', cursor: 'pointer' }}
+                                    onClick={() => setShowEmojies(!showEmojies)}
+                                />
+                            </Grid>
+                            <Grid item xs={10} sm={6} md={6} lg={6} xl={7}>
+                                <TextBox inputText={inputText} handleSendClick={handleSendClick} handleChange={handleChange} />
+                            </Grid>
+                            <Grid item xs="auto" display="flex" justifyContent="flex-end" sx={{
+                                ml: {
+                                    xs: 1, // Margin-left for extra small screens
+                                    sm: 1,
+                                    md: 2,
+                                    lg: 3,
+                                    xl: 2
+                                }
+                            }}>
+                                {
+                                    isTyping ? (
+                                        <SendIcon sx={{ color: '#7e8686', cursor: 'pointer' }} onClick={handleSendClick} />
+                                    ) : (
+                                        <MicIcon sx={{ color: '#7e8686', cursor: 'pointer' }} onClick={() => dispatch(handleSnackbarClick())} />
+                                    )}
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Toolbar>
             </AppBar>
-        </Box>
+        </Box >
     );
 }
-
