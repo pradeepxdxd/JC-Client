@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { BASE_URL } from "../../configs/dev";
@@ -100,7 +101,7 @@ const friendSlice = createSlice({
         updateFriendList: (state, action) => {
             const { id, message, time } = action.payload;
             state.friendList = state.friendList.map(list => {
-                if (list?._id === id) {
+                if (list?._id == id) {
                     return {
                         ...list,
                         lastMessage: message,
@@ -112,7 +113,6 @@ const friendSlice = createSlice({
         },
         updateSeen: (state, action) => {
             state.friendList = state.friendList.map(list => {
-                console.log(list?._id, '===', action.payload)
                 if (list?._id === action.payload) {
                     console.log()
                     return {

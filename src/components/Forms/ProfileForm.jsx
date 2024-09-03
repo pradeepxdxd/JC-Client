@@ -13,12 +13,10 @@ export default function ProfileForm({ close, edit, setEdit, data, profileImage }
     // const dispatch = useDispatch()
 
     const handleSave = (val, err, touched) => {
-        console.log({ val, err, touched })
         if (!isObjectEmpty(err)) {
             return;
         }
         else if (!isEmptyArray(val)) {
-            console.log({ val })
             if (!!profileImage) {
                 // dispatch(editUserById({ ...val, profileImage, id: data?._id }))
             }
@@ -43,7 +41,6 @@ export default function ProfileForm({ close, edit, setEdit, data, profileImage }
             enableReinitialize={true}
         >
             {({ values, touched, errors, handleBlur, handleChange, ...props }) => {
-                console.log({ errors })
                 return (
                     <>
                         <Form>

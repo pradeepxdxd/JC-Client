@@ -31,8 +31,6 @@ export default function FooterBar() {
         listening,
         resetTranscript,
         browserSupportsSpeechRecognition,
-        startListening,
-        stopListening
     } = useSpeechRecognition();
 
     if (!browserSupportsSpeechRecognition) {
@@ -40,7 +38,6 @@ export default function FooterBar() {
     }
 
     useEffect(() => {
-        console.log({transcript})
         if (transcript) {
             setInputText(prev => prev + transcript);
         }
@@ -73,6 +70,12 @@ export default function FooterBar() {
                     from: uid,
                 },
             });
+            socket.emit('send-current-message', {
+                userId: uid,
+                friendId: info?.friendId,
+                message,
+                time
+            })
             dispatch(setChat({ senderId: uid, message, time }));
             dispatch(sendMessage({
                 senderId: uid,
@@ -86,6 +89,11 @@ export default function FooterBar() {
     };
 
     const isTyping = useMemo(() => inputText !== '', [inputText]);
+
+    useEffect(() => {
+        socket.emit('typing', { userId: getUserId(), friendId: info?.friendId, isTyping });
+        return () => socket.off('typing');
+    }, [info?.friendId, isTyping])
 
     return (
         <Box

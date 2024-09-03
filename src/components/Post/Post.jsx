@@ -1,21 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Box, Card, CardHeader, Grid, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
-import DoneAllIcon from '@mui/icons-material/DoneAll';
+// import DoneAllIcon from '@mui/icons-material/DoneAll';
 // import DoneIcon from '@mui/icons-material/Done';
 import Brightness1Icon from '@mui/icons-material/Brightness1';
 import { useDispatch } from 'react-redux';
 import { clearMessages } from '../../store/message/message.slice';
 import { userSelected } from '../../store/selectedUser/selectedUser.slice'
-import { getUserInfo, updateFriendList, updateSeen } from '../../store/friend/friend.slice'
+import { getUserInfo, updateSeen } from '../../store/friend/friend.slice'
 import { setProfile } from '../../store/profile/profile.slice'
 import { PROFILE_IMAGE } from '../../constants/avatar';
 import { getUserId } from '../../utils/auth';
 import { getMessages, clearChats, updateReadStataus } from '../../store/chat/chat.slice'
+import { socket } from '../../configs/socket/socket';
 
 export default function Post({ data }) {
   const uid = getUserId()
+  const [typingStatus, setTypingStatus] = useState(false)
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    socket.on('friend-typing', (typingUsers) => {
+      if (typingUsers.hasOwnProperty(data?._id) && typingUsers[data?._id]) {
+        setTypingStatus(true)
+      }
+      else setTypingStatus(false)
+    })
+
+    return () => {
+      socket.off('friend-typing')
+    }
+  }, [data?._id])
+
   const handleClick = () => {
     dispatch(setProfile({ name: data?.firstname + ' ' + data?.lastname, image: data?.profileImage }))
     dispatch(getUserInfo({ userId: getUserId(), friendId: data?._id }))
@@ -107,17 +123,24 @@ export default function Post({ data }) {
             </Typography>
           }
           subheader={
-            <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center' }}>
-              {(data.senderId === uid && data.receiverStatus === 'READ') && <DoneAllIcon sx={{ color: '#1695de' }} />}
-              {/* {data.clientMessageStatus === 'sent' && <DoneIcon sx={{ color: 'gray' }} />} */}
-              {(data.senderId === uid && data.receiverStatus === 'INCOMING') && <DoneAllIcon sx={{ color: 'gray' }} />}
-              <span style={{ marginLeft: '6px', paddingBottom: '0px', color: '#d2d3d2' }}>
-                {data.lastMessage}
-              </span>
-            </Typography>
+            <>
+              {typingStatus ? <i style={{ color: 'white' }}>Typing...</i> :
+                <>
+                  <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center' }}>
+                    <span style={{ marginLeft: '6px', paddingBottom: '0px', color: '#d2d3d2' }}>
+                      {data.lastMessage}
+                    </span>
+                  </Typography>
+                </>
+              }
+            </>
           }
         />
       </Card>
     </Grid>
   );
 }
+
+// {(data.senderId === uid && data.receiverStatus === 'READ') && <DoneAllIcon sx={{ color: '#1695de' }} />}
+//                     {/* {data.clientMessageStatus === 'sent' && <DoneIcon sx={{ color: 'gray' }} />} */}
+//                     {(data.senderId === uid && data.receiverStatus === 'INCOMING') && <DoneAllIcon sx={{ color: 'gray' }} />}

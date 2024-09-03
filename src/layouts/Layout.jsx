@@ -19,12 +19,17 @@ export default function Layout() {
    const { selected } = useSelector(state => state.selectedUserSlice)
 
    useEffect(() => {
+      socket.emit('active', getUserId())
       socket.on('incoming-call', (data) => {
          if (data.user2 === getUserId()) {
             handleOpen()
             setCallInfo(data)
          }
       })
+      return () => {
+         socket.off('active');
+         socket.off('incoming-call');
+      }
    }, [])
 
    return (
