@@ -19,7 +19,7 @@ export default function VideoCall() {
       container: meetingRef.current,
       scenario: {
         mode: ZegoUIKitPrebuilt.OneONoneCall
-      }
+      },
     })
 
     return () => {

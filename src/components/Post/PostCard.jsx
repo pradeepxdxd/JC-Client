@@ -3,7 +3,6 @@ import Post from './Post'
 import { useDispatch, useSelector } from 'react-redux'
 import { getFriendList } from '../../store/friend/friend.slice'
 import { getUserId } from '../../utils/auth'
-import { socket } from '../../configs/socket/socket'
 
 export default function PostCard() {
     const { friendList } = useSelector(state => state.friend)

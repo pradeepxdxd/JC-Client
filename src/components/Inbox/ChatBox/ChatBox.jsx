@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Box } from "@material-ui/core";
 import { MessageLeft, MessageRight } from "../../../views/Chat/Message";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,8 +6,8 @@ import RenderButton from "./RenderButton";
 import { socket } from "../../../configs/socket/socket";
 import { setChat } from "../../../store/chat/chat.slice";
 import { getUserId } from "../../../utils/auth";
-import './index.css'
 import { updateFriendList } from "../../../store/friend/friend.slice";
+import './index.css'
 
 // const socket = io(APP_URL);
 
@@ -15,7 +15,15 @@ export default function ChatBox() {
   const uid = getUserId()
   const { chats } = useSelector(state => state.chat)
   const { flag, info } = useSelector(state => state.friend);
+  const chatBoxRef = useRef(null);
+
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  }, [chats]);
 
   useEffect(() => {
     // Register the userId with the server when the user connects
@@ -26,9 +34,10 @@ export default function ChatBox() {
 
     // Listen for private messages
     socket.on('private message', (msg) => {
-      if (info?.friendId === msg.userId1 || info.friendId === msg.userId2)
+      if (info?.friendId === msg.userId1 || info.friendId === msg.userId2) {
         dispatch(setChat({ message: msg?.message, time: msg?.timestamp }))
-      dispatch(updateFriendList({ message: msg?.message, time: msg?.timestamp, id: info?.friendId }))
+        dispatch(updateFriendList({ message: msg?.message, time: msg?.timestamp, id: info?.friendId }))
+      }
     });
 
     return () => {
@@ -41,6 +50,7 @@ export default function ChatBox() {
       <RenderButton flag={flag} info={info} />
       <Box
         className="chat-box-style"
+        ref={chatBoxRef}
       >
         {Array.isArray(chats) && chats.length > 0 && chats.map((chat, index) => (
           (chat.senderId !== uid) ? (

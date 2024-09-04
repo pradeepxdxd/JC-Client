@@ -114,7 +114,6 @@ const friendSlice = createSlice({
         updateSeen: (state, action) => {
             state.friendList = state.friendList.map(list => {
                 if (list?._id === action.payload) {
-                    console.log()
                     return {
                         ...list,
                         receiverStatus: 'READ'

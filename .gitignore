@@ -6,6 +6,7 @@
 /bugs.txt
 /copy
 .pnp.js
+/package-lock.json
 
 # testing
 /coverage

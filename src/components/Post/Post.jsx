@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Avatar, Box, Card, CardHeader, Grid, Typography } from '@mui/material';
 import { red } from '@mui/material/colors';
 // import DoneAllIcon from '@mui/icons-material/DoneAll';
@@ -14,9 +14,11 @@ import { getUserId } from '../../utils/auth';
 import { getMessages, clearChats, updateReadStataus } from '../../store/chat/chat.slice'
 import { socket } from '../../configs/socket/socket';
 
-export default function Post({ data }) {
+export default function Post({ data: initialState }) {
   const uid = getUserId()
   const [typingStatus, setTypingStatus] = useState(false)
+  const [data, setData] = useState(initialState);
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -27,8 +29,21 @@ export default function Post({ data }) {
       else setTypingStatus(false)
     })
 
+    socket.on('show-current-message', socketData => {
+      if (socketData?.hasOwnProperty(data?._id)) {
+        setData({
+          ...data,
+          lastMessage: socketData[data?._id]?.message,
+          lastTime: socketData[data?._id]?.time,
+          receiverStatus: 'INCOMING',
+          senderId:data?._id,
+        })
+      }
+    });
+
     return () => {
       socket.off('friend-typing')
+      // socket.off('show-current-message')
     }
   }, [data?._id])
 
