@@ -4,11 +4,12 @@ import Modal from '@mui/material/Modal';
 import { Avatar, IconButton } from '@mui/material';
 import ProfileForm from '../Forms/ProfileForm';
 import AddPhotoIcon from '@mui/icons-material/AddAPhoto'; // You can replace this with any other icon or image.
-import { convertImageToBase64 } from '../../utils/base64';
+import { convertImageToBase64 } from '../../utils/formatImage/base64';
 import { isValidImage } from '../../validations/profile';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { PROFILE_IMAGE } from '../../constants/avatar';
+import { compressImage } from '../../utils/formatImage/compressImage';
 
 const style = {
     position: "absolute",
@@ -51,8 +52,16 @@ export default function BasicModal({ openProfile, setOpenProfile }) {
         const file = event.target.files[0];
         const isValid = isValidImage(file.type)
         if (isValid) {
+            // if (file.size > 90000) {
+            //     const compressedImg = await compressImage(file, 0)
+            //     let compSize = atob(compressedImg.split(",")[1]).length;
+            //     console.log({compSize})
+            //     setProfileImage(compressedImg)
+            // }
+            // else {
             const profileImageBase64 = await convertImageToBase64(file)
             setProfileImage(profileImageBase64)
+            // }
         }
         else {
             toast.error('Only jpeg, png, jpg images are allowed.')
