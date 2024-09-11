@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
-import { whatsAppDashboardImage } from '../../assets/images/whatsApp-dashboard'
+import JustChatBg from '../../assets/images/justchatbg.png'
 import HttpsIcon from '@mui/icons-material/Https';
 
 export default function DashboardView() {
@@ -26,9 +26,9 @@ export default function DashboardView() {
             flexDirection: 'column',
           }}
         >
-          <img src={whatsAppDashboardImage} alt="whatsapp" style={{ width: "300px" }} />
+          <img src={JustChatBg} alt="whatsapp" style={{ width: "300px" }} />
           <Box my={2}>
-            <Typography variant='h4' fontWeight={'100'}>Download WhatsApp for Windows</Typography>
+            <Typography variant='h4' fontWeight={'100'}>Download <span style={{ fontFamily: "'Playwrite CU', sans-serif" }}>Just Chats</span> for Windows</Typography>
           </Box>
           <Box>
             <Typography variant='body2' fontWeight={'noraml'}>Make calls, share your screen and get a faster experience when you download the Windows app.</Typography>
@@ -43,8 +43,8 @@ export default function DashboardView() {
               '&:hover': {
                 bgcolor: '#1ccd97'
               },
-              fontWeight: '500' 
-            }}>Get From MicroSoft Store
+              fontWeight: '500'
+            }}>Coming Soon for Android and IOS
             </Button>
           </Box>
         </Box>

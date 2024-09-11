@@ -1,7 +1,7 @@
 import { Box, LinearProgress, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import HttpsIcon from '@mui/icons-material/Https';
+import JustChatsLogo from '../../assets/images/justchats-glow-bg.png'
 
 export default function Loading() {
     const [progress, setProgress] = React.useState(0);
@@ -43,18 +43,14 @@ export default function Loading() {
                     flexDirection: 'column',
                 }}
             >
-                <WhatsAppIcon sx={{
-                    fontSize: '60px',
-                    color: 'gray'
-                }} />
-                <Box sx={{ width: '30%', my: 6, '@media (max-width:600px)': { width: '100%' } }}>
+                <img src={JustChatsLogo} alt="error" width={100} height={100} style={{ borderRadius: 50 }} />
+                <Box sx={{ width: '30%', my: 5, '@media (max-width:600px)': { width: '100%' } }}>
                     <LinearProgress color='success' variant="determinate" value={progress} />
                 </Box>
                 <Box>
-                    <Typography variant='h5' fontWeight={'bold'} color={'gray'}>Pradeep's WhatsApp</Typography>
-
+                    <Typography variant='h5' fontWeight={'bold'} color={'gray'} sx={{ fontFamily: "'Playwrite CU', sans-serif" }}>Just Chats ❤️</Typography>
                 </Box>
-                <Typography sx={{ color: 'gray', mt: 1 }} variant='body2'>
+                <Typography sx={{ color: 'gray', mt: 4 }} variant='body2'>
                     <HttpsIcon fontSize='0px' />{' '}End-to-end encrypted.
                 </Typography>
                 <Typography sx={{ color: 'gray', mt: 1 }} variant='body1'>

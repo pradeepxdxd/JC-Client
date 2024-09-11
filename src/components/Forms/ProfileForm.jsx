@@ -1,31 +1,35 @@
 import { Box, Button } from '@mui/material';
-import { Form, Formik, isEmptyArray } from 'formik';
+import { Form, Formik } from 'formik';
 import React from 'react'
 import FormikField from '../TextBox/FormikField';
 import { TextField } from 'formik-material-ui';
 import { signUpValidationSchema } from '../../validations/auth';
-// import { useDispatch } from 'react-redux';
-// import { editUserById } from '../../store/auth/user.slice';
+import { useDispatch } from 'react-redux';
+import { editUserById } from '../../store/auth/user.slice';
 import { toast } from 'react-toastify';
-import { isObjectEmpty } from '../../utils/object';
 
 export default function ProfileForm({ close, edit, setEdit, data, profileImage }) {
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
-    const handleSave = (val, err, touched) => {
-        if (!isObjectEmpty(err)) {
-            return;
+    const handleSave = () => {
+        if (!!profileImage) {
+            dispatch(editUserById({ ...data, profileImage, id : data?._id }))
+            toast.success('Profile updated successfully')
         }
-        else if (!isEmptyArray(val)) {
-            if (!!profileImage) {
-                // dispatch(editUserById({ ...val, profileImage, id: data?._id }))
-            }
-            else {
-                // dispatch(editUserById({ ...val, profileImage: data?.profileImage, id: data?._id }))
-            }
-            toast.warn('Profile updated!')
-            setEdit(false)
-        }
+        // if (!isObjectEmpty(err)) {
+        //     return;
+        // }
+        // else if (!isEmptyArray(val)) {
+        //     if (!!profileImage) {
+        //         console.log({profileImage})
+        //         // dispatch(editUserById({ ...val, profileImage, id: data?._id }))
+        //     }
+        //     else {
+        //         // dispatch(editUserById({ ...val, profileImage: data?.profileImage, id: data?._id }))
+        //     }
+        //     toast.warn('Profile updated!')
+        //     setEdit(false)
+        // }
     }
 
     return (

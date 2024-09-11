@@ -28,11 +28,10 @@ const style = {
 };
 
 export default function BasicModal({ openProfile, setOpenProfile }) {
+    const { user } = useSelector(state => state.user)
     const [edit, setEdit] = React.useState(true);
     const [hover, setHover] = React.useState(false);
-    const [profileImage, setProfileImage] = React.useState('')
-
-    const { user } = useSelector(state => state.user)
+    const [profileImage, setProfileImage] = React.useState(user?.profileImage)
 
     const handleClose = () => {
         setOpenProfile(false);
