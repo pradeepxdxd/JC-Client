@@ -5,7 +5,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AutoComplete from '../../components/Search/CustomAutoComplete';
 import PostCard from '../../components/Post/PostCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleSnackbarClick } from '../../store/ui/snakebar/snakebar.slice'
 import { logout } from '../../store/auth/auth.slice'
 import { handleBackDropClose, handleBackDropOpen } from '../../store/ui/backdrop/backdrop.slice';
 import BackDrop from '../../animations/BackDrop';

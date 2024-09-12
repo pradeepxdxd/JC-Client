@@ -62,9 +62,6 @@ export default function BasicModal({ open, handleClose, handleOpen, callInfo }) 
                             </Button>
                         </Box>
                     </Box>
-                    {/* <Typography mt={1} variant="h6" sx={{ color: '#fff', mb: 2, position:'absolute', bottom:'0px' }}>
-                        Calling...
-                    </Typography> */}
                 </Box>
             </Modal>
         </div>

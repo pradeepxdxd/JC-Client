@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
 import { deepOrange } from "@material-ui/core/colors";
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import DoneIcon from '@mui/icons-material/Done';
