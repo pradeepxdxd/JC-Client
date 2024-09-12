@@ -1,7 +1,9 @@
 import React from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Link, Typography } from '@mui/material';
 import JustChatBg from '../../assets/images/justchatbg.png'
 import HttpsIcon from '@mui/icons-material/Https';
+import CopyrightIcon from '@mui/icons-material/Copyright';
+import { Link as RouterLink } from 'react-router-dom';
 
 export default function DashboardView() {
   return (
@@ -56,6 +58,15 @@ export default function DashboardView() {
       }}>
         <Typography sx={{ color: 'gray' }} variant='body2'>
           <HttpsIcon fontSize='0px' /> Your personal message are end-to-end encrypted.
+        </Typography>
+      </Box>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+        <Typography sx={{ color: 'gray' }} variant='body2'>
+          <CopyrightIcon fontSize='0px' /> Authorship : <Link sx={{color:'gray'}} component={RouterLink} target='_blank' to={'https://www.instagram.com/pradeep.biswas_/'}>Pradeep Biswas</Link>
         </Typography>
       </Box>
     </>
