@@ -33,7 +33,6 @@ axiosInstance.interceptors.response.use(
         return response;
     },
     error => {
-        alert(123)
         if (error.response && error.response.status === 403) {
             logout(); // Clear the token
         }
