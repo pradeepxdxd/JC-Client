@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { BASE_URL } from '../../configs/dev'
+import axios from '../../configs/axios/axios'
 import { getUserId } from "../../utils/auth";
 
 export const searchUsers = createAsyncThunk('user/searchUsers', async (params, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`${BASE_URL}/auth/search?name=${params}&userId=${getUserId()}`);
+        const response = await axios.get(`/auth/search?name=${params}&userId=${getUserId()}`)
 
         if (response.data.statusCode === 200) {
             return response.data;
@@ -26,7 +25,7 @@ export const searchUsers = createAsyncThunk('user/searchUsers', async (params, {
 
 export const getUserById = createAsyncThunk('user/getUserById', async (params, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`${BASE_URL}/auth/${params}`);
+        const response = await axios.get(`/auth/${params}`);
 
         if (response.status === 200) {
             return response.data;
@@ -47,7 +46,7 @@ export const getUserById = createAsyncThunk('user/getUserById', async (params, {
 
 export const editUserById = createAsyncThunk('user/editUserById', async (params, { rejectWithValue }) => {
     try {
-        const response = await axios.put(`${BASE_URL}/auth/${params?.id}`, params);
+        const response = await axios.put(`/auth/${params?.id}`, params);
 
         if (response.status === 201) {
             return response.data;

@@ -43,10 +43,8 @@ export default function Main() {
       <ToastContainer />
       <div style={{ transition: 'opacity 0.5s ease', opacity: opacity }}>
         {view === 'loading' ? <Loading /> : view === 'auth' ? <Auth /> : <Layout />}
+        {/* {view === 'auth' ? <Auth /> : <Layout />} */}
       </div>
     </>
   );
 }
-
-// eslint-disable-next-line no-lone-blocks
-{/* {view === 'loading' ? <Loading /> : <Layout />} */ }

@@ -1,11 +1,10 @@
 /* eslint-disable eqeqeq */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { BASE_URL } from "../../configs/dev";
+import axios from '../../configs/axios/axios'
 
 export const getUserInfo = createAsyncThunk('friend/getUserInfo', async ({ userId, friendId }, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`${BASE_URL}/friend/info?userId=${userId}&friendId=${friendId}`);
+        const response = await axios.get(`/friend/info?userId=${userId}&friendId=${friendId}`);
         if (response.status === 200) {
             return response.data;
         }
@@ -25,7 +24,7 @@ export const getUserInfo = createAsyncThunk('friend/getUserInfo', async ({ userI
 
 export const getFriendList = createAsyncThunk('friend/getFriendList', async (params, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`${BASE_URL}/friend/${params}`);
+        const response = await axios.get(`/friend/${params}`);
 
         if (response.status === 200) {
             return response.data.data
@@ -46,7 +45,7 @@ export const getFriendList = createAsyncThunk('friend/getFriendList', async (par
 
 export const sendFriendRequest = createAsyncThunk('friend/sendFriendRequest', async ({ userId, friendId }, { rejectWithValue }) => {
     try {
-        const response = await axios.post(`${BASE_URL}/friend/send`, { userId, friendId });
+        const response = await axios.post(`/friend/send`, { userId, friendId });
         if (response.status === 201) {
             return response.data;
         }
@@ -66,7 +65,7 @@ export const sendFriendRequest = createAsyncThunk('friend/sendFriendRequest', as
 
 export const acceptFriendRequest = createAsyncThunk('friend/acceptFriendRequest', async ({ userId, friendId }, { rejectWithValue }) => {
     try {
-        const response = await axios.patch(`${BASE_URL}/friend/accept`, { userId, friendId });
+        const response = await axios.patch(`/friend/accept`, { userId, friendId });
         if (response.status === 203) {
             return response.data;
         }

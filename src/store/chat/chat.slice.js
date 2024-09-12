@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
-import { BASE_URL } from '../../configs/dev'
+import axios from '../../configs/axios/axios'
 
 export const sendMessage = createAsyncThunk('chat/sendMessage', async (params, { rejectWithValue }) => {
     const { senderId, receiverId, time, message } = params;
     try {
-        const response = await axios.post(`${BASE_URL}/chat/send?senderId=${senderId}&receiverId=${receiverId}`, { message, time });
+        const response = await axios.post(`/chat/send?senderId=${senderId}&receiverId=${receiverId}`, { message, time });
 
         if (response.status === 201) {
             return response.data;
@@ -26,7 +25,7 @@ export const sendMessage = createAsyncThunk('chat/sendMessage', async (params, {
 export const getMessages = createAsyncThunk('chat/getMessages', async (params, { rejectWithValue }) => {
     try {
         const { senderId, receiverId } = params;
-        const response = await axios.get(`${BASE_URL}/chat/messages?senderId=${senderId}&receiverId=${receiverId}`);
+        const response = await axios.get(`/chat/messages?senderId=${senderId}&receiverId=${receiverId}`);
 
         if (response.status === 200) {
             return response.data;
@@ -47,7 +46,7 @@ export const getMessages = createAsyncThunk('chat/getMessages', async (params, {
 export const updateReadStataus = createAsyncThunk('chat/updateReadStataus', async (params, { rejectWithValue }) => {
     try {
         if (!!params) {
-            const response = await axios.patch(`${BASE_URL}/chat/update/read-status/${params}`);
+            const response = await axios.patch(`/chat/update/read-status/${params}`);
 
             if (response.status === 200) {
                 return params._id;

@@ -1,12 +1,11 @@
 /* eslint-disable eqeqeq */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { BASE_URL } from "../../configs/dev";
-import axios from "axios";
+import axios from "../../configs/axios/axios";
 import { jwtDecode } from 'jwt-decode'
 
 export const login = createAsyncThunk('auth/login', async (params, { rejectWithValue }) => {
     try {
-        const response = await axios.post(`${BASE_URL}/auth/login`, params);
+        const response = await axios.post(`/auth/login`, params);
 
         if (response.data.statusCode === 200) {
             return response.data;
@@ -28,7 +27,7 @@ export const login = createAsyncThunk('auth/login', async (params, { rejectWithV
 
 export const signUp = createAsyncThunk('auth/signUp', async params => {
     try {
-        const response = await axios.post(`${BASE_URL}/auth/register`, params);
+        const response = await axios.post(`/auth/register`, params);
         return response.data
     }
     catch (err) {
@@ -47,8 +46,7 @@ const authSlice = createSlice({
     reducers: {
         logout: state => {
             state.token = ''
-            localStorage.removeItem('token')
-            localStorage.removeItem('uid')
+            localStorage.clear();
         },
         getToken: state => {
             return state.token ? state.token : localStorage.getItem('token')

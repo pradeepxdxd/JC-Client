@@ -9,3 +9,7 @@ export const getUserId = () => {
 export const getUserName = () => {
     return localStorage.getItem('name');
 }
+
+export const logout = () => {
+    return localStorage.clear();
+}
