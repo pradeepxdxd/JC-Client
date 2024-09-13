@@ -15,8 +15,9 @@ import useDebounce from '../../hooks/useDebounce';
 import { getUserId } from '../../utils/auth';
 import { userSelected } from '../../store/selectedUser/selectedUser.slice';
 import { clearMessages } from '../../store/message/message.slice';
-import { getUserInfo } from '../../store/friend/friend.slice';
+import { getUserInfo, updateSeen } from '../../store/friend/friend.slice';
 import { resetProfile, setProfile } from '../../store/profile/profile.slice';
+import { getMessages } from '../../store/chat/chat.slice';
 
 export default function AutocompleteWithCustomList() {
     const [textInput, setTextInput] = React.useState('')
@@ -40,6 +41,11 @@ export default function AutocompleteWithCustomList() {
         dispatch(getUserInfo({ userId: getUserId(), friendId: option?._id }))
         dispatch(resetProfile())
         dispatch(setProfile({ name: option?.firstname + ' ' + option?.lastname, image: option?.profileImage }))
+        dispatch(getMessages({ senderId: getUserId(), receiverId: option?._id, chatId: option?.chatId }));
+        // if (!!data?.chatId) {
+        //     dispatch(updateReadStataus(data?.chatId))
+        // }
+        dispatch(updateSeen(option?._id))
     }
 
     return (
