@@ -26,19 +26,18 @@ export default function Clock() {
         if (hr >= 12) {
             formattedHr = hr - 12;
             set_am_pm('PM')
-
-            if (formattedHr.toString().length === 1) {
-                formattedHr = `0${formattedHr}`;
-            }
-            if (formattedmin.toString().length === 1) {
-                formattedmin = `0${formattedmin}`;
-            }
-            if (formattedSec.toString().length === 1) {
-                formattedSec = `0${formattedSec}`;
-            }
         }
         else {
             set_am_pm('AM')
+        }
+        if (formattedHr.toString().length === 1) {
+            formattedHr = `0${formattedHr}`;
+        }
+        if (formattedmin.toString().length === 1) {
+            formattedmin = `0${formattedmin}`;
+        }
+        if (formattedSec.toString().length === 1) {
+            formattedSec = `0${formattedSec}`;
         }
         setMinute(formattedmin)
         setSecond(formattedSec)
@@ -50,7 +49,7 @@ export default function Clock() {
             <Box fontWeight={'bold'} fontSize={'3rem'} component={Typography} color={'cyan'} sx={{ fontFamily: "'Playwrite CU', sans-serif", ml: 1, mr: 1 }}>{hour}</Box>:
             <Box fontWeight={'bold'} fontSize={'2rem'} component={Typography} color={'pink'} sx={{ fontFamily: "'Playwrite CU', sans-serif", ml: 1, mr: 1 }}>{minute}</Box>:
             <Box fontWeight={'bold'} fontSize={'1.2rem'} component={Typography} color={'violet'} sx={{ fontFamily: "'Playwrite CU', sans-serif", ml: 1, mr: 1 }}>{second}</Box>
-            <Box fontWeight={'bold'} fontSize={'0.8rem'} component={Typography} color={'greenyellow'} sx={{ fontFamily: "'Playwrite CU', sans-serif", ml: 1 }}>{am_pm}</Box>
+            <Box fontWeight={'bold'} fontSize={'0.8rem'} component={Typography} color={'greenyellow'} sx={{ fontFamily: "'Playwrite CU', sans-serif", ml: 1, textTransform:'capitalize' }}>{am_pm}</Box>
         </Box>
     )
 }
