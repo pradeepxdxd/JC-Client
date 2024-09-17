@@ -12,9 +12,12 @@ import { useState } from 'react';
 
 export default function Layout() {
    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const [callInfo, setCallInfo] = useState(null)
+   const handleOpen = () => setOpen(true);
+   const handleClose = (event, reason) => {
+      if (reason && reason === "backdropClick") return;
+      setOpen(false);
+   }
+   const [callInfo, setCallInfo] = useState(null)
 
    const { selected } = useSelector(state => state.selectedUserSlice)
 

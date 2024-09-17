@@ -29,7 +29,7 @@ const style = {
     justifyContent: 'center'
 };
 
-export default function BasicModal({ open, handleClose, handleOpen, callInfo }) {
+export default function CallModal({ open, handleClose, handleOpen, callInfo }) {
     const navigate = useNavigate()
     const handleCall = () => {
         if (callInfo?.call_url) {
@@ -39,7 +39,7 @@ export default function BasicModal({ open, handleClose, handleOpen, callInfo }) 
     }
     return (
         <div>
-            <Button onClick={handleOpen}>Open modal</Button>
+            {/* <Button onClick={handleOpen}>Open modal</Button> */}
             <Modal
                 open={open}
                 onClose={handleClose}
