@@ -48,7 +48,13 @@ export default function Loading() {
                     <LinearProgress color='success' variant="determinate" value={progress} />
                 </Box>
                 <Box>
-                    <Typography variant='h5' fontWeight={'bold'} color={'gray'} sx={{ fontFamily: "'Playwrite CU', sans-serif" }}>Just Chats ❤️</Typography>
+                    <Typography className='text-just-chats' variant='h5' fontWeight={'bold'} color={'white'} sx={{
+                        fontFamily: "'Playwrite CU', sans-serif", textShadow: `
+                        0px 0px 10px cyan,
+                        0px 0px 20px cyan,
+                        0px 0px 40px cyan,
+                        0px 0px 80px cyan;    
+                    ` }}>Just Chats ❤️</Typography>
                 </Box>
                 <Typography sx={{ color: 'gray', mt: 4 }} variant='body2'>
                     <HttpsIcon fontSize='0px' />{' '}End-to-end encrypted.

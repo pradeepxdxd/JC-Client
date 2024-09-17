@@ -2,8 +2,6 @@ import axios from "axios";
 import { BASE_URL } from "../dev";
 import { isLoggedIn, logout } from '../../utils/auth'
 
-// console.log(first)
-
 const axiosInstance = axios.create({
     baseURL: BASE_URL,
     headers: {
