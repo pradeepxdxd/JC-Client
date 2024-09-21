@@ -20,6 +20,8 @@ export default function VideoCall() {
       scenario: {
         mode: ZegoUIKitPrebuilt.OneONoneCall
       },
+      showScreenSharingButton: true,
+      showRoomTimer: true
     })
 
     return () => {
