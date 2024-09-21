@@ -1,0 +1,34 @@
+/* Styles for the container holding the video call */
+.video-call-container {
+    width: 100vw;
+    /* 90% of the viewport width */
+    height: 95vh;
+    /* 70% of the viewport height */
+    max-width: 1500px;
+    /* Max width for larger screens */
+    max-height: 900px;
+    /* Max height for larger screens */
+    /* border: 1px solid #ccc; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    /* background-color: #fff; */
+    margin: 0 auto;
+    /* Center the container */
+    border-radius: 8px;
+    /* Rounded corners */
+}
+
+/* Responsive adjustments for mobile devices */
+@media (max-width: 768px) {
+    .video-call-container {
+        width: 100vw;
+        /* Full viewport width */
+        height: 80vh;
+        /* Height adjusts to 80% for mobile */
+        border: none;
+        /* Remove the border on mobile for a cleaner look */
+        box-shadow: none;
+        /* Remove shadow on mobile */
+        border-radius: 0;
+        /* Remove border radius for full screen on mobile */
+    }
+}

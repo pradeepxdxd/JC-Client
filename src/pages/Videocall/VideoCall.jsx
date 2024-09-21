@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt'
 import { getUserId, getUserName } from '../../utils/auth'
+import './VideoCall.css'
 
 export default function VideoCall() {
   const { roomId } = useParams()
@@ -29,5 +30,5 @@ export default function VideoCall() {
     }
   }, [roomId])
 
-  return <div ref={meetingRef} />
+  return <div ref={meetingRef} className="video-call-container" />
 }
