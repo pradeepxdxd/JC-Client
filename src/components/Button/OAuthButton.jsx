@@ -5,6 +5,7 @@ import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { googleLoginOAuth2 } from '../../store/auth/auth.slice';
+import { GOOGLE_OAUTH_CLIENT_ID } from '../../configs/dev';
 
 const OAuthButton = ({ setLoadingView }) => {
     const [colorIndex, setColorIndex] = useState(0);
@@ -46,8 +47,9 @@ const OAuthButton = ({ setLoadingView }) => {
 }
 
 const GoogleOAuthWrapper = ({ setLoadingView }) => {
+    console.log({GOOGLE_OAUTH_CLIENT_ID})
     return (
-        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}>
+        <GoogleOAuthProvider clientId={GOOGLE_OAUTH_CLIENT_ID}>
             <OAuthButton setLoadingView={setLoadingView}></OAuthButton>
         </GoogleOAuthProvider>
     )
