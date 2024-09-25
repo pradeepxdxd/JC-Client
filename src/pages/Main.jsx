@@ -42,7 +42,7 @@ export default function Main() {
     <>
       <ToastContainer />
       <div style={{ transition: 'opacity 0.5s ease', opacity: opacity }}>
-        {view === 'loading' ? <Loading /> : view === 'auth' ? <Auth /> : <Layout />}
+        {view === 'loading' ? <Loading /> : view === 'auth' ? <Auth setView={setView} /> : <Layout />}
         {/* {view === 'auth' ? <Auth /> : <Layout />} */}
       </div>
     </>

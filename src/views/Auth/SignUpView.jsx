@@ -10,8 +10,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import AccountProfileIcon from '../../icons/AccountProfileIcon';
 import { toast } from 'react-toastify'
 import { CircularProgress } from '@mui/material'
+import GoogleOAuthWrapper from '../../components/Button/OAuthButton'
 
-export default function SignUpView({ setView }) {
+export default function SignUpView({ setView, setLoadingView }) {
     const { loading, statusCode, toast: msg } = useSelector(state => state.auth)
     const dispatch = useDispatch()
 
@@ -85,6 +86,7 @@ export default function SignUpView({ setView }) {
                                     />
                                     <Button startIcon={loading ? <CircularProgress color='success' size={'0.9rem'} /> : null} disabled={loading} type='submit' variant='contained' style={{ color: 'gray', backgroundColor: '#2c343d', width: '120px' }}>Sign Up</Button>
                                     <Button disabled={loading} onClick={() => setView(false)} variant='contained' style={{ color: 'gray', backgroundColor: '#2c343d', width: '140px', marginTop: 12 }}>Go To Login</Button>
+                                    <GoogleOAuthWrapper setLoadingView={setView} />
                                 </Box>
                             </Form>
                         </>

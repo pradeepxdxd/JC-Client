@@ -35,6 +35,15 @@ export const signUp = createAsyncThunk('auth/signUp', async params => {
     }
 })
 
+export const googleLoginOAuth2 = createAsyncThunk('auth/googleLogin', async code => {
+    try {
+        const response = await axios.get(`/auth/o-auth/google?code=${code}`);
+        return response.data
+    } catch (error) {
+        throw new Error('Something went wrong, please try again later')
+    }
+})
+
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
@@ -88,6 +97,26 @@ const authSlice = createSlice({
         builder.addCase(signUp.rejected, (state, action) => {
             state.loading = false
             state.toast = action.error.message
+            state.statusCode = action.payload.statusCode
+        })
+
+        builder.addCase(googleLoginOAuth2.pending, state => {
+            state.toast = ''
+            state.loading = true
+        })
+        builder.addCase(googleLoginOAuth2.fulfilled, (state, action) => {
+            if (!!action?.payload?.token) {
+                const { userId, name } = jwtDecode(action.payload.token)
+                localStorage.setItem('token', action.payload.token)
+                localStorage.setItem('uid', userId);
+                localStorage.setItem('name', name);
+                state.token = action.payload.token
+                state.statusCode = action.payload.statusCode
+                state.toast = action.payload.message
+            }
+        })
+        builder.addCase(googleLoginOAuth2.rejected, (state, action) => {
+            state.toast = action.payload.message
             state.statusCode = action.payload.statusCode
         })
     }

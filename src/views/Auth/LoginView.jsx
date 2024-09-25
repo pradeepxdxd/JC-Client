@@ -13,8 +13,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { toast } from 'react-toastify';
+import GoogleOAuthWrapper from '../../components/Button/OAuthButton'
 
-export default function LoginView({ setView }) {
+export default function LoginView({ setView, setLoadingView }) {
   const [open, setOpen] = useState(false);
 
   const { statusCode, toast: msg } = useSelector(state => state.auth)
@@ -93,6 +94,7 @@ export default function LoginView({ setView }) {
                   />
                   <Button type='submit' variant='contained' style={{ color: 'gray', backgroundColor: '#2c343d', width: '120px' }}>Sign In</Button>
                   <Button onClick={() => setView(true)} variant='contained' style={{ color: 'gray', backgroundColor: '#2c343d', width: '140px', marginTop: 12 }}>Go To Sign Up</Button>
+                  <GoogleOAuthWrapper setLoadingView={setOpen} />
                 </Box>
               </Form>
             </>
