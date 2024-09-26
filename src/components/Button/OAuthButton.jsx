@@ -47,7 +47,6 @@ const OAuthButton = ({ setLoadingView }) => {
 }
 
 const GoogleOAuthWrapper = ({ setLoadingView }) => {
-    console.log({GOOGLE_OAUTH_CLIENT_ID})
     return (
         <GoogleOAuthProvider clientId={GOOGLE_OAUTH_CLIENT_ID}>
             <OAuthButton setLoadingView={setLoadingView}></OAuthButton>
