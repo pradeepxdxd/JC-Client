@@ -12,6 +12,8 @@ import { getUserId } from '../../utils/auth';
 import BasicModal from '../../components/Modal/Modal';
 import { getUserById } from '../../store/auth/user.slice';
 import Notification from '../../components/Notification/Notification';
+import { clearLogger, resetProfile } from '../../store/profile/profile.slice';
+import { clearState } from '../../store/friend/friend.slice';
 
 // import AddCommentIcon from '@mui/icons-material/AddComment';
 // import Tabs from '../../components/Tabs/Tabs';
@@ -65,6 +67,9 @@ export default function Left() {
         handleMenuClose()
         dispatch(logout())
         dispatch(handleBackDropOpen())
+        dispatch(resetProfile())
+        dispatch(clearLogger())
+        dispatch(clearState())
     }
 
     const renderMenu = (
