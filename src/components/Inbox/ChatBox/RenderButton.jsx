@@ -28,7 +28,7 @@ export default function RenderButton({ flag, info }) {
                     }}
                 >
                     <Button onClick={handleAddToContact} variant="contained" sx={{ backgroundColor: '#2c343d' }}>Add To Contact</Button>
-                    <Button variant="contained" sx={{ backgroundColor: '#2c343d' }}>Block</Button>
+                    {/* <Button variant="contained" sx={{ backgroundColor: '#2c343d' }}>Block</Button> */}
                 </Box>
             }
             {
@@ -42,7 +42,7 @@ export default function RenderButton({ flag, info }) {
                     }}
                 >
                     <Button variant="contained" sx={{ backgroundColor: '#2c343d' }}>Added</Button>
-                    <Button variant="contained" sx={{ backgroundColor: '#2c343d' }}>Block</Button>
+                    {/* <Button variant="contained" sx={{ backgroundColor: '#2c343d' }}>Block</Button> */}
                 </Box>
             }
             {
@@ -56,7 +56,7 @@ export default function RenderButton({ flag, info }) {
                     }}
                 >
                     <Button onClick={handleAcceptRequest} variant="contained" sx={{ backgroundColor: '#2c343d' }}>Accept</Button>
-                    <Button variant="contained" sx={{ backgroundColor: '#2c343d' }}>Block</Button>
+                    {/* <Button variant="contained" sx={{ backgroundColor: '#2c343d' }}>Block</Button> */}
                 </Box>
             }
         </>
